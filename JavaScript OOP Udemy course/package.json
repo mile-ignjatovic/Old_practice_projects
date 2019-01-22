@@ -1,0 +1,23 @@
+{
+	"name": "jsoop",
+	"version": "1.0.0",
+	"description": "practice project",
+	"main": "index.js",
+	"scripts": {
+		"watch:sass": "node-sass style.scss style.css -w",
+		"dev-server": "live-server",
+		"start": "npm-run-all --parallel dev-server watch:sass",
+		"compile": "node-sass style.scss style.css",
+		"prefix": "npx postcss style.css --use autoprefixer -d build/",
+		"compress": "css-minify -f style.css",
+		"buildcss": "npm-run-all compile prefix compress"
+	},
+	"author": "Mile",
+	"license": "ISC",
+	"dependencies": {},
+	"devDependencies": {
+		"live-server": "^1.2.1",
+		"node-sass": "^4.11.0",
+		"npm-run-all": "^4.1.5"
+	}
+}
