@@ -1,0 +1,57 @@
+.composition {
+    position: relative;
+    &__photo {
+        width: 55%;
+        box-shadow: $shadow-big;
+        border-radius: .2rem;
+        position: absolute;
+        z-index: 10;
+        transition: all .2s;
+        outline-offset: 2rem;
+
+        @include responsive(tab-port) {
+            float: left;
+            position: relative;
+            width: 33.33333%;
+            box-shadow: $shadow-medium;
+        }
+
+        &--p1 {
+            left: 0;
+            top: -2rem;
+            @include responsive(tab-port) {
+                top: 0;
+                transform: scale(1.2);
+            }
+        }
+        &--p2 {
+            right: 0rem;
+            top: 2rem;
+            @include responsive(tab-port) {
+                top: -1rem;
+                transform: scale(1.3);
+                z-index: 100;
+            }
+        }
+        &--p3 {
+            left: 20%;
+            top: 10rem;
+            @include responsive(tab-port) {
+                top: 1rem;
+                left: 0;
+                transform: scale(1.1);
+            }
+        }
+        &:hover {
+            // ouline je kao border al ne nego border koji ima offset i moze da se pomeri van ivica elementa koji okruzuje
+            outline: 1.5rem solid $color-primary;
+            transform: scale(1.05) translateY(-.5rem);
+            box-shadow: $shadow-big;
+            z-index: 20;
+        }
+    } // kaze hover na celu kompoziciju a onda na sliku al ne koja je trenutno na hover i smanji je za 0.1put
+    // composition:hover composition:hover__photo:not(:hover){}
+    &:hover &__photo:not(:hover) {
+        transform: scale(.9);
+    }
+}

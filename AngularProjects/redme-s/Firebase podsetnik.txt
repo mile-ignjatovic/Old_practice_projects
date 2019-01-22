@@ -1,0 +1,48 @@
+1. model struktuirati sto ravnije "flat". bez nekog dubokog nestingovanja sranja u njemu. posto firebase tako bolje fukcionise
+2. Firebaseu moze da se pristupa preko firebase SDK ili preko angularFire2 paketa ili preko oba.
+3. preko firebase SDK-ja dobijam snapshot cele baze u ril tajmu i ok je 
+4. Da bi koristio angularFire2 importujem ga, deklarisem u appModule => imports: [AngularFireModule.initializeApp(firebaseConfig // config koji sam skino sa firebase sajta)] i tako sam omogucio da injectujem angularFire2 u componete kao servis
+5. Mogu da se subscrajbujem na firebase preko angularFire2 => : 
+	const firebaseDataNodeSubscription : FirebaseListObservable<any> = angularFire2Service.database.list('firebaseDataNode');
+	firebaseDataNodeSubscription.subscribe(res => console.log(res));
+	** kad god se nesto promeni u ovom nodu ovaj subscription ce da se trigeruuje
+5.1 ovo gore vraca listu a moze da vraca i objekat tako sto umesto angularFire2Service.database.list(), JA KUCAM 
+	angularFire2Service.database.object('firebaseDataNode/keyObjekta') i kao res dobije jedan objekat
+6. operacije nad db preko angularFire2: list push, list remove, list update, object update, object set
+7. list.push() Posto je FirebaseListObservable i observable i lista, dok sam subscribovan na tu varijablu, mogu isto tako i da pusujem na tu
+	varijabluu i onda se automatski dodaje novi clan u nodu koji sam targetovo sa firebase keyom npr:
+	const firebaseDataNodeSubscription : FirebaseListObservable<any> = angularFire2Service.database.list('firebaseDataNodeName');
+	this.firebaseDataNodeSubscription.push(noviObjekat).then(
+		res => console.log(res), // console.log
+		(err) => console.log(err) // console.error
+	)
+8. list.remove() Da bi izbrisao element iz liste moram ovoj metodi da prosledim taj element koji hocyu da obrisem
+	Fora je da kad se subscribujem keshiram tu listu na klijenta i onda prosledim ceo element koji brisem npr:
+	this.firebaseDataNodeSubscription.map(firebaseDataNodeName => firebaseDataNodeName[0]).subscribe(res => this.firebaseDataNodeOnClient = res);
+	// uvek prvi element liste
+	this.firebaseDataNodeSubscription.remove(this.firebaseDataNodeOnClient)
+9. list.update();
+	this.firebaseDataNodeSubscription.update(this.firebaseDataNodeOnClient, {nekiFileDataNoda: 'neka vrednost'})// fora je ekstra sto ne moram da passujem ceo objekat nego samo key/value pair podatka koji zelim da updejtujem
+10. object.update(): isto kao i lista i isto mogu da mu passujem samo key/value koji hocu da menjam. Returnuje promis
+11. object.set() slicno kao update samo sto uzme taj objekat i setuje ono sto mu prosledim a izbrise sve ostalo sto je bilo u tom objektu
+12. object.remove() brise taj objekat
+13. KREIRAJ SERVIS ZA KOMUNIKACIJU SA BAZOM!!!!!!
+14. PRIMER KONVERTERA IZ JSON-A U OBJEKAT: 
+	export class Lesson {
+		consturctor(public $key: string, public url: string) {}
+		static convertFromJsonList(array): Lesson[] {
+			return array.map(Lesson.convertFromJson);
+		}
+		static convertFromJson({$key, url}): Lesson { // kao fora je da ubacim u ovaj konverter tacno kako izgleda json objekat koji dobijam i posle da iskorisitm te podatke da napravim new Lesson referencu
+			returun new Lesson(
+				$key,
+				url
+			)
+		} 
+	}
+	Posle u servisu koji komunicira sa bazom return this.angularFire2.database.list('lessons').do(console.log).map(Lesson.convertFromJsonList); // posto je staticna funkcija tako je i pozivam. ko u javi :D
+15. filtriranje liste // ovo je pure js ===>>> this.filteredList = this.notFilteredList.filter(lesson => lesson.url.includes('someText'));
+
+
+
+28 lesson routing

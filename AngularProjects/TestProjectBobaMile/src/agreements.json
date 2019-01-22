@@ -1,0 +1,46 @@
+{
+  "agreements": [
+    {
+      "id": 1,
+      "userID": 158,
+      "type": "credit",
+      "date": "agreement1 date"
+    },
+    {
+      "id": 2,
+      "userID": 159,
+      "type": "credit",
+      "date": "agreement2 date"
+    },
+    {
+      "id": 3,
+      "userID": 160,
+      "type": "savings",
+      "date": "agreement3 date"
+    },
+    {
+      "id": 4,
+      "userID": 161,
+      "type": "credit",
+      "date": "agreement4 date"
+    },
+    {
+      "id": 5,
+      "userID": 162,
+      "type": "savings",
+      "date": "agreement5 date"
+    },
+    {
+      "id": 6,
+      "userID": "11",
+      "type": "credit",
+      "date": "ada"
+    },
+    {
+      "id": 7,
+      "userID": "101",
+      "type": "credit",
+      "date": "asda"
+    }
+  ]
+}

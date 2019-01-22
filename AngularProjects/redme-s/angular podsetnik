@@ -1,0 +1,334 @@
+1. kreiranje komponente(RUCNO)
+	-komponentu dodajem kao novi folder u src/app i nazivam je kako vec treba
+	-prvo pravim imeKomponente.component.ts fajl gde definisem: export class ImeKomponente,
+	iznad toga @Component({ selector: '',templateUrl:'',styleUrls:[]}) i importujem @Component
+	-onda pravim html da ga pozovem kroz templateUrl gde kucam html kod
+	-pa css fajl isto kao ovo gore
+	-onda dodajem class ImeKomponente u app.module.ts koji tu komponentu prosledjuje u app.component.ts
+	dodajem ga u @NgModule({declarations:...}) i importujem respektabilno
+2.kreiranje komponente preko CLI
+	-udjem u folder gde je applikacija u cmd i iz njega kucam: ng g(generate skr.) c(component skr.) imeKomponente
+	-ovo mi generise komponentu u folderu app sa svim potrebnim fajlovima i osnovnim kodom 
+	isto mi se generise i .specs.ts koji ima svuda a on u stvari sluzi za testiranje to jos ne znam sta i kako
+
+	Svaku komponentu mogu da pozovem bilo koliko puta u bilo kojoj drugoj komponenti samo navodeci njen selektor[pod uslovom da je deklarisana u app.module.ts]
+--SELEKTOVANJE PO CSS SELEKTORIMA-- (moze a ne mora)  U komponenti mozemo da pretvorimo selektor html strane u atribut tako sto mu dodam [] oko njega 
+	i onda ne mogu da ga pozivam u htmly kao tag nego 
+	kao atribut nekog drugog taga npr <div app-selector></div>
+	-isto tako ako taj selektor zapocnem sa . npr selector: '.app-selector' tako ga kastujem u klasu i pozivam ga u html kao klasu nekog drugog taga
+	npr <div class="app-selector"></div>
+3. kada stavim {{}} na pocetak samog elementa u htmlu i tu upisem bilo koju vrednost nekog tipa, angular zahteva da sve ostale varijable 
+	koje se pozivaju sa curly brackets u tom elementu na kraju budu taj tip varijable koju smo uneli na pocetku. {{koristim da pozovem neku definisanu varijablu iz klase koja je povezana sa tom html komponentom}}
+4.kostruktor komponente se egzekutuje kad god se ta komponenta kreira i u construktror mogu da pakujem logiku
+5. kada stavim [] oko nekog propertija u elementu html-a tipa <button [disabled]>dugme</button> onda mogu da ga bindujem sa nekom varijablom 
+	iz .ts fajle te componente npr <button [disabled]="nekaVarijabla"></button> i fora kad promenim varijablu promenice se dinamicki i u htmlu 
+6.mogu da bindujem i text u paragrafu npr. <p [innerText]="nekaVarijabla"></p> i dobijem text dinamicki
+7. event binding se radi sa () u komponenti koja generise event (ovde ide event tipa click)="nekaFunkcijaKojuPozivam"
+8. u funkciju u temlateu kao vrednost koja se prosledjuje mogu staviti $event sto je u stvari default od clika i input eventa
+	vrednost koju dom prosledjuje meni. na taj nacin mogu da je uhvatim(tu vrednost)
+9. *ngIf i ostale slicne su direktive. * znaci da uticu direktno na dom. *ngIf moze imati else u sledecem formatu: 
+	<p *ngIf = "true; else 'ucitaj nesto drugp'"></p>
+10. moguce je napraviti poseban template i imenovatiga sa hashtagom za pozivanje u else direktivi :
+	<ng-template #mojTemplate><p>neki tekst ili kod</p> i poziva se u *ngIf = "true; else mojTemplate"
+11. ngStyle moram staviti u [] i pozvati neku funkciju ili promenljivu u odnosu na vrednost u ts fajlu 
+	npr [ngStyle] = "{backgroundColor: mojaFunkcija()},"
+12 ngClass insto mora u [] i to je uslovni ngStyle npr [ngClass] = "{onLine: (true or false) === 'da li je uslov ispunjen'}" 
+13. *ngFor=" let itemNiza of niz; let i = index" gde je index rezervisana promenljiva koja pamti poziciju u nizu kad prolazi kroz iteraciju
+14. Sta je TSLint
+15. @INPUT u ts fajlu definisem atribut tog costum taga i onda mu mogu pistupiti iz parent komponente tako sto mu pristupam kao bilo kom 
+	atributu bilo kog taga npr: ts child klase> export class User {@Input() USER: {name: string, lastName: string}-definicija atributa }
+								html parenta> 
+								<app-root>
+								<User [USER]="neki kurac iz parenta"></User>
+								</app-root>
+	ovako sam bindovo atribut child taga na varijablu parent taga
+16. @OUTPUT u ts fajlu Parent elementa definisem funkciju koja prima neke vrednosti nekog tipa i posle radi sa tim vrednostima sta god. npr> primiEventIzChilda(vrednostIzChilda: string){}
+	U child elementu definisem costum eventna sl nacin> costumEvent = new EventEmmiter<{imeVarijavle: string}>();
+	i emitujem ga preko nekog drugog evetna tipa button click function onButtonClicked(){ this.costumEvent.emmit('vrednost koju hocu da emitujem tipa koji sam gore deklarisao') }.
+	U parent html elementu gde je child element pozvan postavim event binding i tako prosledjujem vrednost iz child elementa parent elementu preko $event koji hvata event vrednosti. >
+								parent html> <app-root>
+								<User (costumEvent)="primiEventIzChilda($event)"></User>
+								</app-root>
+17. LOKALNE REFERENCE u html-u elementa npr u <input type="text"> tagu mogu da dodam lokalnu referencu po kojoj posle u tom istom elementu mogu da pozivam ceo tag u neku funkciju npr:
+	<input type="text" #mojInput> <button (click)="onBtnClick(#mojInput)">klik</button> ovako sam prosledio ceo input tag onBtnClick funkciji i posle u ts fajlu tog elementa mogu
+	da pristupim vrednosti tog input taga preko mojInput.value = "vrednost koja je bila u inputu";
+18. Lokalnoj referenci mogu pristuoiti i preko @ViewChild dekoratora npr: @ViewChild('mojInput') inputIzHtml: ElementRef; inputIzHtml.nativeElement.value = koristim da dobijem vrednost
+19. DODAVANJE kontenta u child tag npr: <app-child> Neki kontent </app-child> je inace nemoguce, ali ako u child elementu dodam <ng-content></ng-content> angular ce znati da na to mesto ubaci kontent
+	koji sam dodao child tagu u parent elementu sto znaci da ce na mestu <ng-content></ng-content> pisati 'Neki kontent' kao sto sam napisao gore
+-----	Postoji isto i @ContentChild() kojim se dobavlja referenca iz <ng-content></ng-content> tagova i moguce je koristiti nakon ngAfterContentInit lifecycleHooka
+20. Lifecycle Hooks najkorisnija je ngAfterViewInit(){} ili afterContentChecked jer tada mogu da pristupam svim elementima i vrednostima te komponente.pre ovoga je sve zakljucano
+21. DIREKTIVE mogu da napravim direktivu kada kucam u konzolu ng g d (imeDirektive) dobijem gotovo i injektujem u konstruktor ElementRef da bi mogao da pristupim elementu gde zelim da
+	koristim ovu moju costum direktivu. Posle mogu OnInit da manipulisem tim mojim elementom, a opsta praksa je da pristupam elementima kroz Renderer2 interfejs koji isto injektujem u 
+	constructor
+22. INTERAKTIVNOST U DIREKTIVi mogu da postavim @HostListener('ime eventa > npr mouseover') mouseover(eventData: Event) {neka logika/ tipa promeni boju ili sta god} i to radi...
+	@Host listener listenuje hosta sta se desava sa eventima koji se nad njim desavaju u tako ako postavim mouseenter i jos jedan @HostListener mouseleave ja imam interaktivno menjane
+23. Ako napisem @Input set nekiInput(condition: boolean){ -- neka logika -- } ja sam bindovao ovaj input da se izvrsi neka funkcija svaki put kada se ovaj input(nekiInput) promeni
+24. SERVICES AND DEPENDANCY INJECTION servis pravim tako sto napravim najobicniju klasu, ekxportujem je i njoj dodam neku logiku ili neke podatke
+	u komponenti koja koristi taj servis ja ga importujem, deklarisem pod @Component({...providers:[mojServus]}) i injectujem ga u konstruktor kao 
+	constructor(private refNaServis: mojServis)
+	posle ga pozivam kao da je u toj klasi. this.refNaServis;
+	servisi su singltoni za komponentu kojoj su injectovani i svim CHILD COMPONENTS komponente, a da ta deca NEMAJU taj servis u @Component({...providers:[mojServus]}), a imaju ga u importu i u konstruktoru
+	AKO deca imaju @Component({...providers:[mojServus]}) tu i u importu i u konstruktoru onda je taj servis za to dete overridovan/ singlton je za to dete pa na dole dalju decu.
+	AKO zelim da injectujem drugiServis u mojServis onda u mom servisu iznad deklaracije klase moram da stavim @Injectable() sto dalje znaci da u konstrukor tog mogServis-a ja mogu
+	da injectujem drugi servis koji sam deklarisao npr u appModulu@COMPONENTS({...providers[mojServis, drugiServis]})
+	-- eventi kroz servis:
+	u mojServisu->
+	eventUpdated = new EventEmitter<any>();
+	u klasi koja emituje i koja je injectovala mojServis->
+	this.mojServis.eventUpdated.emit(any);
+	u klasi koja prima emitovano(koja je subscribeovana) i koja je isto injectovala mojServis->
+	this.mojServis.eventUpdated.subscribe(
+		(event: any) => alert.('noviEventZaAlert: ' + event)
+	);
+25. Da se ponovi da bi servis bio dostupan childComponentama mora da se nalazi u provajderu parent componente
+26. tip Kada koristim push za dodavanje elementata u niz, ako imam niz elemenata da ga stavim u drugi niz elemenata pojedinacno umesto for petlje mogu da koristim sl primer:
+	this.array.push(...someOtherArray); te tri tackice su operator koji spreduje someOhterArray na array :D
+27. ROUTING importujem Routes i RouterModule iz @angular/touter u app.module.ts
+	deklarisem const appRoutes: Routes = [{ path: '', component: MojComponent }]; 
+	dodam u imports RouterModule.forRoot(appRoutes)
+	posle u komponenti u kojoj link treba da odvede na odredjeni route kucam  
+	<li routerLinkActive = "active" [routerLinkActiveOptions] = "{exact:true}"> <a routerLink = "/">Home</a></li>
+	ovo znaci da ce se proslediti "active" kao klasa kad je ovaj rout aktiviran, [routerLinkActiveOptions] = "{exact:true} znaci da ovaj rout gadja iskljucivo "/" rout, 
+	routerLink = "/" znaci da je rout /
+28. Mogu da injectujem router: Router u neki konstruktor klase i iz metoda da pozovem router.navigate(['/mojRout'])
+29. Mogu da dodam u app.module Routes =[{path: 'users/:id', component: UserComponent}] i onda ce znati da je posle : neki dinamicki parametar koji se prosledjuje
+30. routerLink moze da se binduje i onda u njega moze da se prosledjuje array of elements npr [routerLink] = "['/user', 1, 'Mile']"
+	isto tako qveri parametri mogu u njega da se prosledjuju npr: [queryParams] = "{allowEdit: '1'}" ce biti kao kveri u ovom linku od gore. nastavljase samo	
+	takodje moze da se napise fragment = "loading" i onda ce on biti dodat kao #loading na url
+	ovaj kod koristim kad hocu isto ovo ali iz ts fajla this.router.navigate(['/user', 1, 'Mile'], {queryParams: {allowEdit: '1'}, fragment: 'loading'});
+	ngOnInit() {
+    const  activatedId = +this.activatedRoute.snapshot.params['id'];
+    this.server = this.serversService.getServer(activatedId);
+    this.activatedRoute.params.subscribe(
+      (params: Params) => {
+          this.server = this.serversService.getServer(+params['id']);
+      }
+    );
+  }
+31. child routes se stavljaju u app module i posle se <router-outlet> ubacuje u njihove perente da se ucitaju na stranici
+32. za cuvanje qveri parametara medju stranicam koristim this.router.navigate(['edit'], {relativeTo: this.activatedRoute, queryParamsHandling: 'preserve' });
+	i posle ga hvatam u subscribe this.activatedRoute.queryParams.subscribe(
+      (param: Params) => { this.allowEdit = param['allowEdit'] === '1' ? true : false; }
+    );
+33. { path: 'not-found', component: PageNotFoundComponent },
+	{ path: '**', redirectTo: '/not-found' } // svi moguci putevi koji nisu definisani gore hvata ovaj path. on mora da bude zadnji incae overriduje sve
+33.5 kada hocu da skace na stranici sa anchora na anchor koristim href="#idMestoGdeHocuDaSkoci" a tamo negde ima <div id= "idMestoGdeHocuDaSkoci"></div> href="." je refresh strane
+34. AuthGuard CanActivate CanActivateChild --ceo ovaj segment je kod schvarcvalda maksimilijana 133-137 video angular 5 kursa
+	@Injectable()
+export class AuthGuardService implements CanActivate, CanActivateChild {
+  constructor(private authFakeService: AuthFakeService, private router: Router) {  }
+  canActivate(route: ActivatedRouteSnapshot,
+              state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return this.authFakeService.isAutenthicated()   // TODO objasni mi se
+		.then(
+        (authenticated: boolean) => {
+          if (authenticated) {
+            return true;
+          } else {
+            this.router.navigate(['/']);}});}
+  canActivateChild(route: ActivatedRouteSnapshot,
+                   state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return this.canActivate(route, state);}}
+	posle se to dada u path: 
+	path: 'servers',
+    // canActivate: [AuthGuardService],  // da sacuva ovaj path i sve njegove childove
+    // da sacuva samo child pathove servers patha
+    canActivateChild: [AuthGuardService], // . ovo radi zato sto je definisan canActivateChild interface u AuthGuardService klasi
+    component: ServersComponent, children: [
+    { path: ':id', component: ServerComponent },
+    { path: ':id/edit', component: EditServerComponent, canDeactivate: [CanDeactivateGuard]}] },
+35. handeling dynamic error msg through error-page.module through static data passing in routes	
+	path: 'error-page', component: ErrorPageComponent, data: {message: 'neki dinamicki message'}, da bi ovo radilo u ErrorComponenti mora da se injectuje activePage i da se definise message varijabla
+	i posle mogu da stavim to u ngOnInit() {this.message = this.route.snapshot.data['mojData']} tako i poruka moze biti dinamicka mozda. isto moze i preko subscribe()
+36. Resolver koristimo kada imamo neke asinhrone podatke sa servera koje hocemo da prikazemo u pre displaying a route/dinamicke podatke
+	pravi se servis koji implementira Resolve<Sta ocekuje>
+	@Injectable()
+export class ServerResolver implements Resolve<Server> {
+  constructor(private serversService: ServersService) {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Server> | Promise<Server> | Server {
+    return this.serversService.getServer(+route.params['id']);}}  //ovo mora da se ubaci u app.module
+	u path se definise "resolve" sa imenom componente koja ce da resolvuje { path: ':id', component: ServerComponent, resolve: {server: ServerResolver} }
+	--na kraju tamo gde koristim tu rutu mogu da uradim: ngOnInit() {
+    this.activatedRoute.data.subscribe(
+      (data: Data) => {
+        this.server = data['server'];});  // i ovo ce da dohvati server asinhrono
+37. OBSERVABLES reactivex.io/rxjs/    !!!!!
+38. SUBJECT je bolje da koristim umesto eventEmmitera jer je on u stvari izgradjen na Subject-u
+39. Template Driven Forms fora, angular kontrolise sta se desava u formi preko js-activatedId	
+	form tag nema u sebi action ili method to ide sve preko angulara. 
+	--ako ima submit dugme u form tagu se stavlja (onSubmit) = "mojaMetoda(f)" #f="ngForm" i tako preuzima sve podatke iz te forme u taj metod. #f je selektor form taga
+	isto tako u input tagove treba staviti ngModel da forma zna da ce taj input da hendluje angular i mora da ima name="imeInputa"
+	PRIMER: <form (ngSubmit)="onSubmit(f)" #f="ngForm">  <!-- kada stavim da je #f="ngForm" onda mogu da manipulisem tom formom kao jsObjektom tj tim f koje je tada tipa NgForm -->
+        <div id="user-data">
+          <div class="form-group" ngModelGroup="userData"> <!-- ngModelGroup da bi se grupisali elementi forme da bi im lakse pristupali i proveravali vrednosti validnost itd -->
+            <label for="username">Username</label>
+            <input
+            type="text"
+            id="username"
+            class="form-control"
+            ngModel
+            name="username">
+          </div>								!!!!!	OVO MOZE I PREKO VIEWCHILD @ViewChild('f') signupForm: NgForm;
+40. Form validation funkcionise naravno preko templaita. primer: 
+		<div class="form-group">
+            <label for="email">Mail</label>
+            <input
+            type="email"
+            id="email"
+            class="form-control"
+            ngModel         <!-- stoji tu da se zna da je kontrola tipa NgModel i da bi moglo da joj se pristupa, moze da se poveze oneway i twoway binding -->
+            name="email"	<!-- dodato da bi ngModel mogao da funkcionise -->
+            required		<!-- ako polje nije popunjeno vrednost valid ce biti false -->
+            email			<!-- ako vrednost nije u email formatu vrednost valid ce biti false -->
+            #email="ngModel">	<!-- selektor da moze da mu se pristupi sa ngModel fukcijama i klasama -->
+          </div>
+         <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email</span> <!-- email.valid pristup preko ngModel selektora od gore -->
+        </div>
+41. ngModel one way binding primer: 
+		<select
+          id="secret"
+          class="form-control"
+          [ngModel] = "defaultQuestion" <!-- ge je u ts fajlu ovo vrednosti pet ili teacher -->
+          name="secret">
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+42. RADIOBUTTON primer:  <div class="radio" *ngFor="let gender of genders"> <!-- da iterira kroz listu promenljivih -->
+          <label>
+            <input type="radio" name="gender" ngModel [value] = "gender" > <!-- da napravi radio button -->
+            {{gender}}  <!-- da ispise vrednost -->
+          </label>
+        </div>
+43. manipulisanje formom u .ts mofu da postavljam vrednosti forme u tamplate driven approuchu na primer:
+	this.myForm.form.setValue({ 	//kada se koristi setValue moram da setujem sve value, a kada bi koristio patchValue() onda mogu samo jedno da promenim ostala da ne pominjem
+		imeForme: {
+			imePolja: "vrednost",
+			imeDrugogPolja: "vrednost"
+		}
+	})
+44. reset form se radu tako sto pristupim u .ts fajlu formi preko selektori i pozovem metodu reset() npr: this.myForm.reset()
+45. u app.modul importujem ReactiveFormsModule, Reactive Forms u .ts deklarisem myForm: FormGroup; inicijalizujem u onInit(){ myForm = new FormGroup({
+	'kontrola1': new FormControl('inicijalna vrednost', [Validator], [Asinhroni validator]), kontrola2: new FormControl()}); }
+	U html-u <form [formGroup]="myForm"><input formControlName="kontrola1"></form> 
+46. Reactive form Array	u .ts gde inicijalizujem form definisem let formArray = new FormArray([]); -- posle formArray.push(new FormGroup({'kontrola1': new FormControl()}));
+	u html-u <div formArrayName = "formArray">
+		<div *ngFor"let formControl of myForm.get('formArray').controls; let i = index"
+			[formGroupName]="i">
+				<input formControlName="kontrola1">   <!-- i je br indexa u arrayu kontrola tako da mogu da uzmem taj i i gadjam tu anonimnu kontrolu direk u nizu u ts -->
+		</div>										<!-- (<FormArray>this.myForm.get('formArray')).removeAt(i); -->  //kastovanje casting form in array
+	</div> 
+	
+FORME
+1. In template driven forms, if you've imported FormsModule in appModule.ts, you don't have to do anything to the 
+	<form #heroForm="ngForm">input and submit goes here</form> tag in order to make use of FormsModule.
+2. <input type="text" class="form-control" id="name"
+       required
+       [(ngModel)]="model.name" name="name"> 
+	   ---input for imediate two way databinding
+3. The NgModel directive doesn't just track state; it updates the control with special Angular CSS classes that reflect the state. 
+	You can leverage those class names to change the appearance of the control. ie.   
+The control has been visited.	ng-touched	ng-untouched
+The control's value has changed.	ng-dirty	ng-pristine
+The control's value is valid.	ng-valid	ng-invalid
+4. u html elemente gde se nalazi ngModel moze da se doda #spy selektor i preko tog selektora mogu da vidim sta se desava sa npr klasama u tom elementu. 
+npr: {{spy.className}} ce da mi izbacuje dinamicki koje su sve trenutne klase u datom elementu
+5.  <input type="text" class="form-control" id="name" required
+          [(ngModel)]="model.name" name="name" #name="ngModel">
+          <div [hidden]="name.valid || name.pristine"
+               class="alert alert-danger">
+            Name is required
+          </div>
+		  ovde je selektor #name = "ngModel" da bi dole mogao tom nameu da se pristupi i vidi dal je taj ngModel input valid ili pristine znaci true ili false
+		  na osnovu tog podatka binduje se to na hidden properti div taga koji se znaci na osnovu toga prikazuje dinamicki
+		  
+6. ReactiveForms: importujem ReactiveFormsModule u app.module.ts u komponentu importujem FormBuilder i FormGroup. injectujem FormBuilder. napravim metod 
+	createForm() {
+    this.heroForm = this.fb.group({ // <--parent form group
+      name: ['', Validators.required],
+        address: this.fb.group({  // <--child form group
+          street: '',
+          city: '',
+          state: '',
+          zip: ''}),
+      power: '',
+      sidekick: ''
+    });
+  }
+}		ovu metodu pozivam na init ili u konstruktor. u html fajlu u form tagu moram da bindujem [formGroup] = "heroForm" properti na ime koje cu da koristim u ts.
+		posle tom propertiju mogu da pristupim
+		
+		
+47. PIPES dodam na promenljivu neku u html-u | i u nastavku koji pipe zelim. taj pipe menja tekst na odredjeni nacim(transform)
+	pipes mogu da primaju parametre npr: "23.06.1989." | date: 'fullDate' parametri pipea se pisu pipe pa dve tacke pa navodnici pa parametar. na angular.io imaju svi pipe-i
+	Pipes mogu da se chaining-uju ali je red kojim se chaining-uju jako bitan npr nemoz da uppercasujes date direkt zato sto nije string nego type date
+48. Costum PIPE . pravi se posebna klasa i mora da se deklarise u appModule u declarations: []
+import { PipeTransform, Pipe } from "@angular/core";
+@Pipe({    name: 'shorten', pure: false	}) //ime pipea i kako se poziva u htmlu i pure: false ako hocu da se pipe primeni kad god se nesto promeni na svaku promenu
+export class ShortenPipe implements PipeTransform {
+    transform(value: any, limit: number) { //limit je parametar pipea
+        if(value.length > limit){	return value.substr(0, 10) + '....'; 	}
+        return value;}}
+49. Async pipe koristim kada hocu da outputujem nesto sto je il promise il observable.
+	{{PromisOfString | async}} na ovaj nacin sve dok se promis ne resolvuje ovde ce umesto [Object object] u html-u biti prazan prostor 
+50. HTTP napravim servis koji importuje Http from @angular/http i injectuje ga u constructor. 
+	onda napravim metodu storeServices(servers: any[]) {
+    return this.http.post('https://udemy-project-f773a.firebaseio.com/data.json'-endpoint ka bazi, servers-varijabla koju saljem);}
+	u komponenti koja koristi ovaj service mogu da kucam this.service.storeService(this.servers).subscribe((response)=>console.log(response), (error)=>console.log(error));
+	i sad posto je subscribeovan kada se pokrene metoda koja sadrzi liniju od gore desice se request response ka serveru
+	*****U src folderu angular projekata je primer za Http i mnogo je mocan. radi sa firebaseom. firebase je mama
+51. Authentication preko firebase ide jednostavno. importuje se firebase import * as firebase from 'firebase', al mora prvo da se uradi npm install --save firebase
+	i sve metode idu iz firebase reference. pogledaj u recipe projektu sa signIn i signUp componentama i auth.service servisu
+	moguce je postaviti i Authentication Guard na route (34.) koji zabranjuje prelaz na route ako korisnik nije ulogovan tj. ako je token == null;
+52. Module praviti nije komplikovano ali ima dosta prekucavanja. idi na video 261 od Udemy angular complete da vidis tutorijal
+53. Lazy loading je moguce ostvariti tako sto napravim modul sa komponentama koje hocu naknadno da ucitam i onda izbrisem svaku referencu na taj modul i onda u routing modulu ga pozovem ovako:
+	{ path: 'pathKojiHocu', loadChildren: './putanjaDoModulaKojiHocuDaUcitam#ImeKlaseModulaKojiHocuDaUcitam'}, // lazy loading
+54. Preloading the code. koristim sa lazy loading-om da kada korisnik udje na stranicu ucita sve sto je eager loadovano a ono sto je lazy loudovano ucita polako u pozadini
+	ovo postizem tako sto u glavni router dodam config preloadStrategy: @NgModule({  imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules})]})
+55. AOT and project build	Da izbildujem projekat za produkciju i prodaju i da on ima ahead of time compilation kucam u cli "ng build --prod --aot" ovo u mom projekt folderu
+	pravi novi "dist" folder koji ce da sadrzi sve portrebne fajlove za funkcionisanje cele aplikacije i to mogu da saljem nekom itd...
+56. DEPLOYEMENT stvari o kojima treba brimuti: kada bildujem trebao bi da koristim AOT compilation, treba da postavim odgovarajuci <base> element zbog routinga, 
+	server treba da konfigurisem da nebitno koji rout korisnik trazi on ovuk vraca index.html posto se routinzi generisu tek kad se index(app) pokrene.
+57. Deploy na amazonwebservices aws video 286
+
+VASKO OBSERVABLES: 
+- Statless observable be services:
+	jedan od nacina da napravim dobar servis za dobavljanje beckend podataka je da napravim servis koji ima direktnu komunikaciju sa BE i u tom servisu da gadjam api-je preko metoda koje vracaju Observable<T> kao povratnu vrednost 
+	(ne da vracaju neki tip ili vec u servisu ucitane podake). Posle u .ts komponenata koje konzumiraju taj servis mogu da se subscribujem i dodelim te podatke nekoj lokalnoj promenljivoj ILI da celu tu metodu koju pozivam iz servisa i koja vraca
+	Observable<T> dodelim nekoj promenljivoj koju posle u htmlu koristim uz | async. npr: <div *ngIf="items$ | async as items else loadingTemplate">items</div><ng-template #loadingTemplate>Loading...<ng-template>
+- BehaviourSubject je subject koji pamti zadnju vrednost i moze da se koristi kada je potrebno da vrednost postoji u inicijalnom stanju. 
+- Primer stateful servisa sa observablama: 
+	export const UNKNOWN_USER : User = {
+		firstName: 'Unknown'
+	};
+	@injectable
+		export class UserService {
+			private subject = BehaviorSubject(UNKNOWN_USER); // napravi subject koji ima defoult stanje
+			user$: Observable<User> = this.subject.asObservable(); // dodeli taj subject user observabli
+			constructor(private http: Http) {}
+			login(email: string, password: string) {
+				const headers = new Headers();
+				headers.append('Content-type', 'application/json'); // hederi za http request da ga nebi mozda gledao kao text ili nesto drugo
+				return this.http.post('api/login', {email, password}, headers) // http request
+					.map(res => res.json()) // da pretvori tip respons u tip json
+					.do(user => console.log(user)) // costo da se vidi sta se desava
+					.do(user => this.subject.next(user)) // da emituje sledecu vrednost
+					.publishLast().refCount(); // da se izvrsi samo jednom
+			}
+		}
+- umesto ngOnChange mozda moze da se koristi changeDetection: ChangeDetectionStrategy.OnPush u @Component({})-tu i to znaci da ce komponenta da se renderuje kad kog se desi change na inputima ili kada se neki event emituje 
+	ili kada se neka varijabla u html-u koja je observable stavljena na async pipe promeni
+- router Resolver mogu da implementiram u posebnoj klasi da obradi neke observable podatke koji se ucitavaju asinhrono i onda da ih ucitam tamo gde treba preko ActivatedRoute.data.map()
+- observable.switchMap() prima 2 parametra. prvi parametar je taj neki novi observable u koji se prebacuje, a drugi parametar moze da bude kombinacija dobijenih podataka te 2 observable npr:
+	observable.switchMap(firstResult => observable2.findById(firstResult.id), (firstResult, secondResult) => [firstResult, secondResult])
+
+ npm install --save bootstrap@3.3.7 
+npm install -g json server
+json-server --watch (ime fajla)
+
+git pull ili git clone
+git branch imeBrancha
+git checkout imeBrancha
+git add --all
+git commit -m "komentar o komitu"
+git push origin imeBrancha
+

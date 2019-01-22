@@ -1,0 +1,19 @@
+<div class="popup" id="booking-popup">
+        <div class="popup__content popup__book__background">
+            <div class="popup__right">
+                <a href="#section-book" class="popup__close">&times;</a>
+                <div class="popup__book">
+                    <ul>
+                        <div class="popup__booking-title">
+                            Available tours:
+                        </div> 
+                        <li *ngFor="let tour of tours" (click)="bookTour(tour)" onclick="location.href='#popup-success'"
+                        [ngClass]="{
+                            'popup__item-blue': tour.color === 'blue', 
+                            'popup__item-green': tour.color === 'green', 
+                            'popup__item-orange': tour.color === 'orange'}">{{tour.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

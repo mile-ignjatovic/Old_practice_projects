@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+                                
+            function selectChange() {
+                var selected = document.forms[0].sladoledi.value; 
+                document.getElementById("text-output").innerHTML=selected; 
+            }
+
+        </script>
+    </head>
+    <body>
+        <h1>Combo box Assingment</h1>
+
+        <form action="#">
+            <select id="sladoledi" onchange="selectChange()">
+                <option value="rumenko">Rumenko</option>
+                <option value="cokomoko">Cokomoko</option>
+                <option value="kapri">Kapri</option>
+                <option value="kornet">Kornet</option>
+                <option value="magnum">Magnum</option>
+                <option value="rumkoktel">Rumkoktel</option>
+                <option value="plazma">Plazma</option>
+            </select>
+        </form>
+        <br>
+        <br>
+        <span>Text selected in dropdown:</span>
+        <div id="text-output"></div>
+
+    </body>
+</html>

@@ -1,0 +1,69 @@
+.header {
+    /* vh znaci da ce heder uvek biti 95% visine view porta */ 
+    height: 90vh;
+    /* ovo znaci da ce linear gradient sa smerom i bojama da ide preko url slike */
+    background-image: linear-gradient(
+        to right bottom, 
+        rgba($color-primary-light, 0.8),
+        rgba($color-primary-dark, 0.8)),
+        url(../img/hero-small.jpg);
+    /* skejluje sliku da uvek prekriva sav moguci prostor ali da uvek odrzi aspect ratio */
+    background-size: cover;
+    /* kada se menja velicina viewporta on ce kropovati bottom slike a ne top. top ce biti fiksiran */ 
+    background-position: top;
+
+    position: relative;
+
+    @supports (clip-path:polygon(0 0)) or (-webkit-clip-path:polygon(0 0)) {
+    /* clip path ce da isece background po obliku koji mu se prosledi */
+    /* postoji alat koji se zove bennettfeely.com/clippy koji ima predefinisane oblike */
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+        height: 95vh;
+    }
+    
+    @media only screen and (min-resolution: 192dpi) and (min-width: 37.5em), 
+    only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 125em) {
+        // ovo je high resolution screen
+        // i media qveri koji gadja rezoluciju
+        // i ima jos jedan uslov a to je da width ekrana bude veci od 600px
+        // ili ako je ekran veci od 2000px onda ucitaj najvecu sliku
+        background-image: linear-gradient(
+            to right bottom, 
+            rgba($color-primary-light, 0.8),
+            rgba($color-primary-dark, 0.8)),
+            url(../img/hero.jpg);
+        }
+        
+        @include responsive(tab-port) {
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 83vh, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 83vh, 0 100%);
+        }
+        
+        @include responsive(phone) {
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+        }
+        
+    // & kada stoji to znaci da se tekst posle & znaka dodaje na parent ovog elementa tj header u ovom slucaju
+    &__logo-box {
+        position: absolute;
+        top: 4rem;
+        left: 4rem;
+    }
+
+    &__logo {
+        height: 3.5rem;
+    }
+
+    /* header title text */
+    &__text-box {
+        /* apsolutno centriranje :D */
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        /* ovo gore pomera ivice na po 50% a ovo dole pomera te ivice na -50% samog elementa koji pomeram */
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+}

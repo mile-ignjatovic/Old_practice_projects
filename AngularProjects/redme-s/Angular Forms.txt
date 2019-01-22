@@ -1,0 +1,37 @@
+1. In template driven forms, if you've imported FormsModule in appModule.ts, you don't have to do anything to the 
+	<form #heroForm="ngForm">input and submit goes here</form> tag in order to make use of FormsModule.
+2. <input type="text" class="form-control" id="name"
+       required
+       [(ngModel)]="model.name" name="name"> 
+	   ---input for imediate two way databinding
+3. The NgModel directive doesn't just track state; it updates the control with special Angular CSS classes that reflect the state. 
+	You can leverage those class names to change the appearance of the control. ie.   
+The control has been visited.	ng-touched	ng-untouched
+The control's value has changed.	ng-dirty	ng-pristine
+The control's value is valid.	ng-valid	ng-invalid
+4. u html elemente gde se nalazi ngModel moze da se doda #spy selektor i preko tog selektora mogu da vidim sta se desava sa npr klasama u tom elementu. 
+npr: {{spy.className}} ce da mi izbacuje dinamicki koje su sve trenutne klase u datom elementu
+5.  <input type="text" class="form-control" id="name" required
+          [(ngModel)]="model.name" name="name" #name="ngModel">
+          <div [hidden]="name.valid || name.pristine"
+               class="alert alert-danger">
+            Name is required
+          </div>
+		  ovde je selektor #name = "ngModel" da bi dole mogao tom nameu da se pristupi i vidi dal je taj ngModel input valid ili pristine znaci true ili false
+		  na osnovu tog podatka binduje se to na hidden properti div taga koji se znaci na osnovu toga prikazuje dinamicki
+		  
+6. ReactiveForms: importujem ReactiveFormsModule u app.module.ts u komponentu importujem FormBuilder i FormGroup. injectujem FormBuilder. napravim metod 
+	createForm() {
+    this.heroForm = this.fb.group({ // <--parent form group
+      name: ['', Validators.required],
+        address: this.fb.group({  // <--child form group
+          street: '',
+          city: '',
+          state: '',
+          zip: ''}),
+      power: '',
+      sidekick: ''
+    });
+  }
+}		ovu metodu pozivam na init ili u konstruktor. u html fajlu u form tagu moram da bindujem [formGroup] = "heroForm" properti na ime koje cu da koristim u ts.
+		posle tom propertiju mogu da pristupim npr heroForm.get('name').value ili valid ili ima jos neke metode pa moze da se koristi za laksi pristup i validaciju

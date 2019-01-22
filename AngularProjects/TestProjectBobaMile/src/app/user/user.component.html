@@ -1,0 +1,71 @@
+<h1 class="text-center">USERS</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <!-- Filters -->
+      <form class='form-group' [formGroup]="filterForm">
+        <label for="filterName">Name filter:</label>
+        <input type="text" formControlName="name" id="filterName">
+
+        <label for="filterYear">Year filter:</label>
+        <input type="number" formControlName="year" id="filterYear">
+      </form>
+
+      <!-- Table: Listing all the users -->
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Year</th>
+            <th scope="col" class="text-center">More info</th>
+            <th scope="col" class="text-center">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers" >
+            <th>{{ user.id }}.</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.lastName }}</td>
+            <td class="text-center">{{ user.yearOfBirth }}</td>
+            <td>
+              <input type="button" (click)="userInfo(user)" class="btn btn-info" value="More info">
+            </td>
+            <td>
+              <input type="button" (click)="userRemove(user)" class="btn btn-danger" value="Remove">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-md-12 col-sm-12">
+        <!-- Form: Adding new users -->
+        <form [formGroup]="userForm">
+          <div class="form-group">
+            <label for="formInputId">UserID:</label>
+            <input type="number" class="form-control" id="formInputId" placeholder="Enter id" formControlName="id" name="userID">
+            <div *ngIf="userForm.get('id').pending">Checking UserID</div>
+            <div *ngIf="userForm.get('id').dirty && userForm.get('id').errors?.uniqueAsyncCheck">This UserID already exists!</div>
+            <div *ngIf="userForm.get('id').dirty && !userForm.get('id').pending && !userForm.get('id').errors">This UserID is OK</div>
+          </div>
+          <div class="form-group">
+            <label for="formInputName">Name:</label>
+            <input type="text" class="form-control" id="formInputName" placeholder="Enter name" formControlName="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="formInputLastname">Lastname:</label>
+            <input type="text" class="form-control" id="formInputLastname" placeholder="lastname" formControlName="lastName" name="lastName">
+          </div>
+          <div class="form-group">
+            <label for="formInputYear">Year of birth:</label>
+            <input type="number" class="form-control" id="formInputYear" formControlName="yearOfBirth" name="yearOfBirth">
+          </div>
+          <button type="button" class="btn btn-success" (click)="addUser()">Add user</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

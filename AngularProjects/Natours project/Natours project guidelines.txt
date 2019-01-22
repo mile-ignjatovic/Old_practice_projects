@@ -1,0 +1,20 @@
+Convert the extisting Natours project gained from working on "Advanced css and Sass" tutorial from Jonas Schmedtmann on Udemy.
+
+- Create new angular project: ng new Natours --style=scss (so we can use scss from the start) [done]
+
+- Extrapolate base html components from html code that allready exists in Natours project [done]
+	- Add animated scroll when clicked on href#
+	- add a popup on button click learn more in about section [done]
+	- add a popup on button click read all stories in stories section [done]
+	- add action on next step button in book section to lead to chose tour list and in the end send an email to me :D #booking-popup
+	- each button in footer openes corresponding popup [done]
+	
+- Add the missing components
+
+- Se what data needs to be dynamic on the page
+
+- create firebase models for data needed
+
+- incorporate firebase database in the project
+
+- build

@@ -1,0 +1,110 @@
+.btn {
+    /* link i visited da bi pogodio oba */
+    &,
+    &:link,
+    &:visited {
+        text-transform: uppercase;
+        text-decoration: none;
+        border-radius: 10rem;
+        /* prvi broj je za top i bot a drugi za left i right */
+        padding: 1.5rem 4rem;
+        /* inline block je zato sto sam mu postavio padinge i da ih zadrzi a ne da dobije automatik widht: 100% */
+        display: inline-block;
+        /* ovde kaze skraceno da ce biti animacija koja ce da traje 0.2s i ona ce da bude na 
+        svim mogucim transformovima koji se nalaze na ovom elementu ali ne u ovom pocetnom(ovom) stanju
+        nego kad se aktivira hover ili active ili sta vec
+        */
+        transition: all .2s;
+        /* relativ zbog ::aftera dole */
+        position: relative;
+        font-size: $default-font-size;
+        border: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        transform: translateY(-.3rem);
+        /* oovo prima x, y, blur, boja i baca shadow na hover */
+        box-shadow: $shadow-btn-small;
+
+        /* kad je hover ONDA hocu neke stilove za moj sudo ::after element od btn-a */
+        &::after {
+            /* scale povecava ovaj element za 1.5 puta */
+            transform: scaleX(1.5) scaleY(2);
+            opacity: 0;
+        }
+    }
+    
+    /* active znaci da je u trenutku  klika */
+    &:active,
+    &:focus {
+        outline: none;
+        transform: translateY(-1px);
+        box-shadow: $shadow-btn-small;
+    }
+    
+    &--white {
+        background-color: $color-white;
+        color: $color-gray-dark;
+
+        &::after {
+            background-color: $color-white;
+        }
+    }
+
+    &--green {
+        background-color: $color-primary;
+        color: $color-white;
+
+        &::after {
+            background-color: $color-primary;
+        }
+    }
+    
+    /* ::after je element koji se postavlja 'posle' .btn-a. Mora da se definise content, display.
+        velicina(koji zauzima ovde 100% elementa od kojeg je after), pozicioniranje i z-index ne mora ali da bi se postavio iza elementa */
+    &::after {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        border-radius: 10rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        /* transition svih promena na ::after */
+        transition: all .4s;
+    }
+    
+    &--animated {
+        animation: moveInUp .5s ease-out 1s;
+        /* ovo znaci da ce animacioni stilovi biti aplicirani pre pocetka animacije */
+        animation-fill-mode: backwards;
+    }
+}
+
+.btn-text {
+    &:link,
+    &:visited {
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: .1rem solid $color-primary;
+        padding: .3rem;
+        transition: all .2s;
+    }
+ 
+    &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+        box-shadow: $shadow-btn-small;
+        transform: translateY(-.2rem);
+    }
+
+    &:active {
+        box-shadow: $shadow-btn-small;
+        transform: translateY(0);
+    }
+}

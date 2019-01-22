@@ -1,0 +1,57 @@
+<h1 class="text-center">AGREEMENTS</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <!-- Table: Listing all of the agreements in the bank -->
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">AgreementID</th>
+            <th scope="col">UserID</th>
+            <th scope="col">Type</th>
+            <th scope="col" class="text-center">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let agreement of agreements" >
+            <th>{{ agreement.id }}.</th>
+            <td>{{ agreement.userID }}</td>
+            <td>{{ agreement.type }}</td>
+            <td class="text-center">{{ agreement.date }}</td>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="col-md-12 col-sm-12">
+        <!-- Form: Adding new agreement -->
+        <form>
+          <div class="form-group">
+            <label for="formInputAgreementId">AgreementID:</label>
+            <input type="number" class="form-control" id="formInputAgreementId" placeholder="Enter agreement id" [(ngModel)]="agreementID" name="agreementID">
+          </div>
+          <div class="form-group">
+            <label for="formInputUserId">UserID:</label>
+            <select id="userID" name="userID" [(ngModel)]="userID" class="form-control">
+              <option selected="selected" disabled>UserID...</option>
+              <option *ngFor="let user of users" [value]="user.id">{{user.id}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="formInputAgreementType">Type:</label>
+            <select id="agreementType" name="agreementType" [(ngModel)]="agreementType" class="form-control">
+              <option selected="selected" disabled>Agreement type...</option>
+              <option [value]="'credit'">credit</option>
+              <option [value]="'savings'">savings</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="formInputAgreementDate">Date:</label>
+            <input type="text" class="form-control" id="formInputAgreementDate" placeholder="Enter date" [(ngModel)]="date" name="date">
+          </div>
+          <button type="button" class="btn btn-success" (click)="addAgreement()">Add agreement</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

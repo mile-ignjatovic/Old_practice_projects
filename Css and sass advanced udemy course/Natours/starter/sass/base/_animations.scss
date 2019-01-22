@@ -1,0 +1,47 @@
+@keyframes moveInLeft {
+    /* 0% predstavlja pocetno stanje a 100% predstavlja kraj animacije to su koraci animacije */
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+
+    80% {
+        /* pred kraj da izleti malo udesno */
+        transform: translateX(1rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes moveInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(10rem);
+    }
+
+    80% {
+        /* pred kraj da izleti malo ulevo */
+        transform: translateX(-1rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes moveInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(2.5rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

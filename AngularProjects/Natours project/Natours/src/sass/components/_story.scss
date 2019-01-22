@@ -1,0 +1,101 @@
+.story {
+    position: relative;
+    width: 75%;
+    margin: 0 auto;
+    box-shadow: 0 3rem 6rem rgba($color-black, .1);
+    background-color: rgba($color-white, .6);
+    border-radius: .3rem; 
+    padding: 6rem;
+    padding-left: 9rem;
+    font-size: $default-font-size;
+    transform: skewX(-12deg);
+
+    @include responsive(tab-port) {
+        width: 100%;
+        padding: 4rem;
+        padding-left: 7rem;
+        
+        // transform: skewX(0deg);
+        // &__shape {    
+        //     transform: translateX(0rem) skewX(0deg);
+        // }
+        // &__image {
+        //     transform: translateX(0rem) scale(0);
+        // }
+        // &__text {
+        //     transform: skewX(0deg);
+        // }
+    }
+
+    @include responsive(phone) {
+         transform: skewX(0deg);
+    }
+
+    &__shape {
+        width: 15rem;
+        height: 15rem;
+        float: left;
+        border-radius: 50%;
+
+        transform: translateX(-3rem) skewX(12deg);
+        overflow: hidden;
+
+        @supports (clip-path:polygon(0 0)) or (-webkit-clip-path:polygon(0 0)) {
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+
+            -webkit-shape-outside: circle(50% at 50% 50%);
+            shape-outside: circle(50% at 50% 50%);
+
+            border-radius: none;
+            width: 15rem;
+            height: 15rem;
+        }
+
+        @include responsive(phone) {
+            transform: translateX(-3rem) skewX(0);
+       }
+
+    }
+
+    &__image {
+        height: 100%;
+        transform: translateX(-4rem) scale(1.3);
+        backface-visibility: hidden; 
+        transition: all .5s;
+    }
+
+    &__text {
+        transform: skewX(12deg);
+        
+        @include responsive(phone) {
+            transform: skewX(0);
+       }
+    }
+
+    &__caption {
+        color: $color-white;
+        text-transform: uppercase;
+        font-size: $default-font-size;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 20%);
+        opacity: 0;
+        transition: all .5s;
+        backface-visibility: hidden;
+
+    }
+    &:hover  &__caption {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    &:hover &__image {
+        transform: scale(1) translateX(-4rem);
+        filter: blur(.3rem) brightness(80%);
+    }
+
+    
+}

@@ -1,0 +1,45 @@
+
+<div class = "container">
+TODO : remove this code: {{diagnostic}}
+  <h1>Hero Form</h1>
+    <form #heroForm="ngForm" (ngSubmit) = "onSubmit()">
+    <div [hidden] = "submitted">
+      <div class = "form-group">
+        <label for = "name">Name</label>
+        <input type="text" class="form-control" id="name" required
+          [(ngModel)]="model.name" name="name" #name="ngModel" #spy
+          minlength="4">
+          TODO : remove later : {{name.invalid}}
+          <br>
+          TODO : delete this code later : {{spy.className}}
+
+          <div [hidden]="name.valid || name.pristine"
+               class="alert alert-danger">
+            Name is required
+          </div>
+      </div>
+
+      <div class = "form-group">
+        <label for = "alterEgo">Alter Ego</label>
+        <input type = "text" class = "form-control" id = "alterEgo" name = "alterEgo" #alterEgo = "ngModel"
+        [(ngModel)]="model.alterEgo" name="alterEgo" appForbiddenNameValidator="Mile">
+        {{alterEgo.valid}}
+      </div>
+
+      <!-- select dropdown elements from arrey in ts file of this component -->
+      <div class = "form-group">
+        <label for = "power">Hero Power</label>
+        <select class = "form-control" id = "power" required
+        [(ngModel)]="model.power" name="power">
+          <option *ngFor = "let pow of powers" [value]="pow">{{pow}}</option>
+        </select>
+      </div>
+    </div>
+      <button type = "button" class = "btn btn-default" (click) = "newHero(heroForm)">New Hero</button>
+
+      <button type = "submit" class = "btn btn-succes" [disabled] = "!heroForm.form.valid">Submit</button>
+
+    </form>
+
+</div>
+

@@ -1,0 +1,8 @@
+Ovo je cist html5 i css3 projekat. Nema nikakvu funkcionalnost sem sto je css animiran 
+i sto je sajt responsive (ne u potpunosti ali 70%) i dinamican.
+Jedna od najbitnijih stvari naglasenih u ovom projektu je arhitektura projekta.
+Sve je podeljeno na misaone celine i koriscen je BDM (ja mislim da se tako zove) forfmat za nazivanje
+css klasa. Takodje neka specijalna sass arhitektura.
+Zamiljen je da bude aplikacija za organizovanje turistickih tura u prirodi.
+Sledeca stvar koju bih mogao da uradim je da prebacim ceo ovaj projekat u angular i povezem sa bazom nekom.
+

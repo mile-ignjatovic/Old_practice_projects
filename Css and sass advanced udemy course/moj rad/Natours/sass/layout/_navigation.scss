@@ -1,0 +1,169 @@
+.navigation {
+
+    &__checkbox {
+        display: none;
+    }
+
+    &__button {
+        background-color: $color-white;
+        width: 7rem;
+        height: 7rem;
+        // izbaci element iz flowa i taj element je onda fixiran na toj poziciji na celoj stranici, za razliku od absoluta
+        position: fixed;
+        top: 6rem;
+        right: 6rem;
+        border-radius: 50%;
+        z-index: 1002;
+        box-shadow: 0 1rem 3rem rgba($color-black, .1);
+        text-align: center;
+        cursor: pointer;
+
+        @include responsive(tab-port) {
+            top: 4rem;
+            right: 4rem;
+        }
+
+        @include responsive(phone) {
+            top: 3rem;
+            right: 3rem;
+        }
+    }
+
+    &__background {
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+        // izbaci element iz flowa i taj element je onda fixiran na toj poziciji na celoj stranici, za razliku od absoluta
+        position: fixed;
+        top: 6.5rem;
+        right: 6.5rem;
+        background-image: radial-gradient($color-primary-light, $color-primary-dark);
+        z-index: 1000;
+
+        transition: transform .8s cubic-bezier(0.86, 0, 0.07, 1);
+
+        @include responsive(tab-port) {
+            top: 4.5rem;
+            right: 4.5rem;
+        }
+
+        @include responsive(phone) {
+            top: 3.5rem;
+            right: 3.5rem;
+        }
+    }
+
+    &__nav {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1001;
+        
+        // ovo je ovako da neb moglo da se klikne dok ne stisnem dugme checkbox sto je gore desno
+        width: 0;
+        opacity: 0;
+
+        transition: all .8s cubic-bezier(0.68, -0.55, 0, 2.5);
+    }
+
+    &__list {
+        @include centerVH;
+        list-style: none;
+        text-align: center;
+        width: 100%;
+    }
+
+    &__item {
+        margin: 1rem;
+    }
+
+    &__link {
+        &:link, 
+        &:visited {
+            display: inline-block;
+            padding: .7rem 1.5rem;
+            font-size: 3rem;
+            font-weight: 300;
+            color: $color-white;
+            text-decoration: none;
+            text-transform: uppercase;
+    
+            background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $color-white 50%);
+            background-size: 220%;
+
+            transition: all .3s;
+
+            span {
+                margin-right: 1.5rem;
+                display: inline-block;
+            }
+        }
+
+        &:hover,
+        &:active {
+            background-position: 100%;
+            color: $color-primary;
+            transform: translateX(1rem);
+        }
+        
+    }
+
+    &__checkbox:checked ~ &__background {
+        transform: scale(80);
+    }
+
+    &__checkbox:checked ~ &__nav {
+        width: 100%;
+        opacity: 1;
+    }
+    
+    // selektuje ikonu koja je u stvari linija sa after i before elementom. na kraju ispadne 3 linije
+    &__icon {
+        position: relative;
+        margin-top: 3.5rem;
+        &,
+        &::after,
+        &::before {
+            // selektor za sve
+            width: 3rem;
+            height: .2rem;
+            background-color: $color-gray-dark-3;
+            display: inline-block;
+           
+        }
+        // selektor za pseudo linije gore i dole
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            transition: all .2s;
+        }
+        // selektori za linije posebno
+        &::before {top: -.8rem;}
+        &::after {top: .8rem;}
+    }
+
+    // da se malo rastrkaju linije kad je hover
+    &__button:hover &__icon::before {
+        top: -1rem;
+    }
+    &__button:hover &__icon::after {
+        top: 1rem;
+    }
+
+    // kad je checkbox checked srednja linija(icon) postaje nevidljiva
+    &__checkbox:checked + &__button &__icon {
+        background-color: transparent; 
+    }
+    // kaze: kada je checkbox checked selektuj njegovog prvog siblinga (+) a to je __button i onda njegov child __icon::before pseudo element
+    &__checkbox:checked + &__button &__icon::before {
+        top: 0;
+        transform: rotate(135deg);
+    }
+    &__checkbox:checked + &__button &__icon::after {
+        top: 0;
+        transform: rotate(-135deg);
+    }
+}

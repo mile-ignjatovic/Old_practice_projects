@@ -1,0 +1,26 @@
+<div *ngIf="!user">
+  <span class="fa fa-spinner fa-spin" style="font-size: 50px;"></span>
+</div>
+<div *ngIf="user" class="col-md-12 col-sm-12">
+  <!-- Table: lists single user info -->
+  <table class="table table-borderless">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">Year of birth</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastName }}</td>
+        <td class="text-center">{{ user.yearOfBirth }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<a class="btn btn-danger" [routerLink]="['/users']">Back</a>

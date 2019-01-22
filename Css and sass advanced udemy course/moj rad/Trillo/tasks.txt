@@ -1,0 +1,5 @@
+1. display some kind of menu when hovering over username in .user-nav
+2. display a message menu when hovering over the chat icon in .ser-nav(like facebook)
+3. display a box with search suggestions as soon as the user starts typing in the search field
+4. create a caption for the .gallery_item with a nice hover effect like in natours project
+5. make page 100% responsive even below 500px -uradio!

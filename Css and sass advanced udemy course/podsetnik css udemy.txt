@@ -1,0 +1,398 @@
+Documents\Css and sass advanced udemy course\Natours\css\style.css
+0. H1 tag i title u headu su najbitnije stvari trenutno za google pretrazivac i tu treba da se ispise sve sto bi trebalo da sluzi za pretragu
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> da sa prilagodi ekranu sajt na kojem se nalazi
+1. BEM sistem imenovanja css klasa:
+	blokove nazivam deskriptivnim imenima
+	a element bloka definisem sa __element(prim: header__logo, header__textbox)
+	a modifikatore definisem sa --ime modifikatora (prim: heading-primary--main, heading-primary--sub) koji ce imati razlicite vrednosti ali slicne
+2. basic reset primer: *,
+	*::after,
+	*::before {
+		margin: 0;
+		padding: 0;
+		/* ovo inace nije nasledjeno ali kad se ovako postavi jeste i uvek treba da bude da bi svaki element na stranici bio border-box element (u html{box-sizing: border-box} se postavi) */
+		box-sizing: inherit;
+	}
+3. root font size odredjujem u html {font-size: 62.5%;} selektoru. Dajem mu procentualnu velicinu zato sto ce tako uzeti default od korisnikovog brovsera koji je uglavnom 16px i
+	tako ga pretvoriti u 10px. ako je neka druga vrednost to ce konvertovati u odgovarajucu vrednost za taj browser. 
+	Kada sam odredio root font size mogu da koristim rem mernu jedinicu, koja ce u ovom slucaju biti 10px.(62.5% od 16px). 
+	rem vazi onda za sve elemente koji se nalaze u html elementu, dok em uzima vrednost font sizea iz svog direktnog parenta. Treba koristiti rem uglavnom
+4. u bodi elementu definisem font-family, font-weight, line hight, color, box-sizing i tako te osnovne stvari za ceo projekat
+5. box-sizing: border-box; je jako bitan zato sto govori css-u da width i height racuna bez padding i border sizea kad uzima procente
+6. vh i vw je velicina view porta i ima vrednost od 1 do 100
+7. fora za background sajta  background-image: linear-gradient(
+        to right bottom, 
+        rgba(126, 213, 111, 0.8),
+        rgba(40, 180, 133, 0.8)),
+        url(../img/hero.jpg); 
+	ovo ce uraditi linearni gradijent od prve boje ka drugoj boji preko url slike
+8. background-size: cover; skejluje sliku da uvek prekriva sav moguci prostor ali da uvek odrzi aspect ratio */
+9. background-position: top; kada se menja velicina viewporta on ce kropovati bottom slike a ne top. top ce biti fiksiran */ 
+10. clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); clip path ce da isece background po obliku koji mu se prosledi 
+	postoji alat koji se zove bennettfeely.com/clippy koji ima predefinisane oblike */
+11. backface-visibility: hidden; ovo je fix za animacije ako se mrdaju iz nekog razloga */
+12. animation-name: moveInLeft; ovako se poziva animacija koja je dole definisana i odredjuje se njeno trajanje */
+    animation-duration: 2s;
+    animation-timing-function: ease-out; /* da se definise tajming kod animacije. ovo znaci da ce da se uspori pred kraj */
+    animation-iteration-count: 3; // desice se 3 puta
+    animation-delay: 3s; 
+13. animation: moveInRight 2s infinate ease-out; skraceno pozivanje animacije */ infinate ja da je infinate loop
+14. @keyframes moveInLeft {
+    /* 0% predstavlja pocetno stanje a 100% predstavlja kraj animacije to su koraci animacije */
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+    80% {
+        /* pred kraj da izleti malo udesno */
+        transform: translateX(1rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+15. transition: all .2s; ovde kaze skraceno da ce biti animacija koja ce da traje 0.2s i ona ce da bude na 
+    svim mogucim transformovima koji se nalaze na elementu ali ne u ovom pocetnom(ovom) stanju
+    nego kad se aktivira hover ili active ili sta vec, ili pun ispis: 
+	prvo se pise sta hocu da animiram, pa koliko ce da traje, pa kojom brzinom (cubic-bezier) da se izvrsi pa dalay
+	transition: transform .2s, 
+        width .4s cubic-bezier(1,.0,0,1) .2s,
+        background-color .1s ;
+16. box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); oovo prima x, y, blur, boja i baca shadow na hover */
+17. .btn:active { active znaci da je u trenutku  klika */
+    transform: translateY(-1px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.2);
+}
+18. ::after i ::before su elementi koji se postavlja 'posle' ili 'pre' .btn-a. 
+	Mora da se definise content, display, velicina(koji zauzima ovde 100% elementa od kojeg je after), pozicioniranje i z-index ne mora ali da bi se postavio iza elementa */
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* transition svih promena na ::after */
+    transition: all 0.4s;
+} z-index mora da se def na position: relative elementu
+19. animation-fill-mode: backwards; ovo znaci da ce animacioni stilovi biti aplicirani pre pocetka animacije */
+20. INSTALIRANJE SASS SCSS na projekat: udejm u projekat i kucam npm init. Ispratim korake i kreira se package.json file
+	onda kucam npm install node-sass --save-dev isto ovako mogu da ubacim razne dependencije u projekat.
+21. Onda napravim folder scss sa fajlon mein.scss i u njega pise scss
+	U package.json u "scripts": {
+		"compile:sass": "node-sass sass/main.scss css/style.css -w" // ovim sam napravio komandu za cmd "compile:sass" koja ce uzeti main.scss i konvertovati ga u style.css
+			// posmatrace ga za promene: "-w" i runovace u terminalu non stop dok ga ne ugasim
+	} kucam npm run compile:sass
+	inace ovde u scripts mogu da targetujem pakete iz npm-a, fazon lint:fix ili nesto sto mi kompresuje kod ili nesto sto ga optimizuje za sve browsere... valja istraziti
+22. Za instaliranje hotReload servera kucam npm install live-server -g i to je globalni paket i mogu da ga zovem odakle hocu (valjda)
+	udjem u glavni folder projekta i kucam live-server i onda mi on podigne server na localhostu
+23. note: u scss kada kucam & to znaci da ce selektor posle znaka biti prilepljen na parent selektor
+24. 7:1 scss arhitektura app-a je da imas 7 foldera (
+		1. abstract: _functions, _mixins, _variables
+		2. base: _base (gde stavljam osnovne stvari tipa *selektor, body itd), _animations, _utilities, _typography
+		3. components gde odvajas standalone componente
+		4. layout gde odvajas layout scss
+		5. pages ako ima vise stranica
+		6. themes ako imas razlicite teme
+		7. vendors ako imas css tipa bootstrap ili neki drugi
+25. Width: 1140px je neki standard maksimalne sirine stranice i odredjujem ga uglavnom sa max-width jer onda ce biti toliko ako moze, a ako ne moze bice 100%
+26. @mixin clearfix {  // bez clearfix-a kad nesto floatujem postoji opasna mogucnost da se height tog elementa pojebe. stoga ovaj clearfix mixin koji dodajem @include clearfix;
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    
+27. // selector svih class atributa koji pocinju(^) sa col!!!
+    [class^="col-"] {
+        background-color: orangered;
+        float: left; 
+28. col-md-3 iz butstrapa npr se dobija preko width: calc(); funkcije i npr: 
+		.col-3-of-4 {
+			width: calc((3 * (100% - #{$space-horizontal-between} * 3) / 4) + 2 * #{$space-horizontal-between});
+		}
+		ili :
+		.col-1-of-4 {
+        width: calc(
+            (100% - #{$gutter-horizontal} * 3) / 4);
+		}
+	ce dovesti do toga da u prvom primeru div zauzima 3/4 max sirine minus razmak izmedju
+	ili u drugom primeru 1/4
+	na ovu foru mogu da napravim svoj grid
+29. kada radim sajti uvek je dobra praksa da css klase koje cu da korisstim svuda u projektu a nisu komplikovane(fazon jedna linija) stavljam u _utility.scss partial
+30. // kao width: fit-content
+    display: inline-block;
+31. // nova sposobnost css-a da isece background po necemu. u ovom slucaju to je text
+    -webkit-background-clip: text;
+	// kada promenim boju teksta u providno dobijem da mi je tekst boje backgrounda
+	color: transparent;
+32. // ovako mogu da se pisu vise transformova u jednoj liniji
+    transform: skewY(-6.5deg) skewX(-15deg) scale(1.1);
+33. Uvek je dobro da u utilitis partialu imam neke predodredjene stilove tipa padding small padding medium itd...
+34. outline i outline-offset je jako korisno kada mi treba border koji ne ide bas uz ivicu elementa koji okruzuje
+	outline je kao border ali ima offset i moze se podesiti na koliko god
+35. selektor kada hocu da slike koje su pojedinacno zum na hover ove sto nisu trenutno na hover budu malo odzumirane => 
+	skupSlika:hover slikaIzSkupaSlika:not(:hover) {transform: size(.9);} => selektuj sve slike koje nisu trenutno hover
+36. skew - pa plus na svu direktnu decu da postignem efekat kao clip path
+    transform: skewY(-7deg);
+    selektuj svu DIREKTNU decu ovog selektora !!!!!!!!!!!!!!!
+    & > * {
+        transform: skewY(7deg);
+37. perspective: 150rem;
+    -moz-perspective: 150rem;
+	fora sa ovim je da postavi sa koje tacke gledista posmatras neku transformaciju
+    ovde se posmatra rotateY i ispadne kao da ga gledas iz perspektive, inace bi se samo izrotiralo za 180deg 2d. sa ovim izgleda 3d
+	ako koristim apsolutno pozicioniranje moram da podesim istu visinu relativ elementa kao apsolutnog da bi se perspektiva videla
+	fora za rotaciju: 
+	kontejner {
+		height: 50rem;
+		onoStoRotira {
+			height: 50rem;
+			width: 20rem;
+			position: absolute;
+			top: 0;
+			left: 0;
+		
+			backface-visibility: hidden; // da sakrije ono sto se vidi kad se okrene za 180deg
+		
+			transition: all .8s ease;
+			&--front {
+			}
+			&--back {
+				transform: rotateY(180deg); // vec je okrenuto na pocetku
+			}
+			&:hover &--front {
+				transform: rotateY(180deg);
+			}
+			&:hover &--back {
+				transform: rotateY(0);
+			}
+		}
+	}
+38. kada hocu linear-gradient stavljam ga na background-image a ne color.
+	prim: backgruond-image: linear-gradient(to right bottom, red, black);
+39. background-blend-mode: screen; // kada stavljam dve slike jednu preko druge u background-imag: kao dole u primeru mogu da podesim background-blend-mode svojstvo i te dve slike se blenduju jedna u drugu
+    &--1 {
+        background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+40. -webkit-box-decoration-break: clone;
+	ovo je kada je nesto inline i prelazi u drugu liniju a ja hocu da se stilovi primene kao da su to dve razlicite linije (elementa)
+41. clipath braks the overflow in the browser i onda moram da deklarisem opet ono sto je trebalo da se ispravi overflowowm u elementu koji ima clippath
+	npr: ako je stavljeno neki background-image u kontejner koji ima border-radius clippath ce da ga prepise i onda bih morao da deklarisem border radius i u clippath elementu
+42. Postoji fazon da linija po kojoj se ravna text u odnosu na floutovan div ima neki oblik. Tada taj div mora naravno da bude floatovan i da mu bude dat shape-outside svojstvo kome je dodeljen neki oblik
+	Takodje mora da mu bude odredjen width i height
+	width: 100px;
+	height: 100px;
+	float: left;
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+43. Kada je nesto floatovano nije preporucljivo koristiti paddinge i margine na tom elementu nego je najbolje koristiti transform: translate();
+44. figure element je html5 element koji moze da ima sliku i caption u kome definisem <figcaption> i <img> elemente
+45. Kada koristim transform na parent i child elmente treba da obratim paznju. moze da dodje do bagova.
+46. filter property slicno kao transform prima metode koje uticu na element na razne nacine primer: 
+	filter: blur(3px) brightness(80%);
+47. video html5 element koristim kada hocu da ubacim video neki i u njemu definisem <source> elemente i alt. Primer:
+		<video class="bg-video__content" autoplay muted loop>  // video element ima parametre (muted loop itd) koji ga dalje definisu
+            <source src="img/video.mp4" type="video/mp4"></source> // deff sourcove sa razlicitim formatima
+            <source src="img/video.webm" type="video/webm"></source>
+            Your browser is not supported! // ovo je kao alt ako browser ne podrzava video
+        </video>
+48. solid color gradiant:
+	background-image: linear-gradient(105deg, 
+        rgba($color-white, .9) 0%,
+        rgba($color-white, .9) 50%,
+        transparent 50%), url(../img/nat-10.jpg);
+49. igranje sa input i placeholderom u form elementu imam dobre primere u Natours projektu _form.scss partial i naravno u index.html
+50. selektor za placeholder
+        &::-webkit-input-placeholder {
+            color: $color-gray-dark-2;}
+51. ajecent sibling + selector. selektor kad je placeholder shown selektuj __label
+    &__input:placeholder-shown + &__label {
+        opacity: 0;}
+52. kada je input invalid
+	&:invalid {border-bottom: 3px solid $color-secondary-dark;}
+53. Radio button je definisan automatski od strane browsera i ne moze da se stilizuje. Moze da se uradi da se na radio input stavi display: none; 
+	onda napravi span kojem cu staviti border radius 50% i na taj span da se stavi ::after i da se tu definise krug u krugu koji posle moze da se selektuje sa 
+	&__radio-input:checked + &__radio-label &__radio-button::after {
+        opacity: 1;} // ima primer u _form.scss u Natours projektu
+	ovo inace nebi funkcionisalo da radio button nema label i ja klikujem na taj label i checkbox dobija :focus i :checked
+54. uvek je najbolje koristiti elemente kao sto su <main> i u mainu <section> za footer <footer> nije da dobijas ista time, ali preglednije je i jasnije
+55. kad imam neku navigaciju najbolje je staviti u nav element kao npr ul sa il
+56. position: fixed; izbacuje element iz flowa kao absolut sa razlikom da je taj element uvek na fiksnoj poziciji bez obzira na scroll
+57. Za animaciju prosiranja pozadine (teksta npr) od strane ka drugoj strani na hover mogu da koristim: 
+	// do 50% da bude providno posle belo pod uglom od 120deg
+	background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $color-white 50%);
+	// da se uveca da bi pokrilo celu povrsinu
+    background-size: 220%;
+	i posle na hover:
+	background-position: 100%;
+58. checkbox hack mogu videti u natours projektu _navigation.scss
+59. display: table; mogu da postavim i onda je taj element tretiran kao tabela. Childovi u tom elementu mogu onda da imaju display: table-cell; i onda se ponasaju kao polja u tabeli
+	Samim tim mogu da se modifikuju tako. npr: vertical-align: middle; sto je properti table-cell-a. 
+	Ovo dodje kao precica za centriranje
+60. Da bi text bio podeljen u kolone mogu da uradim npr: 
+		column-count: 2;
+        column-gap: 4rem;
+        column-rule: 1px solid rgba($color-gray-dark, .3);
+	Sto ce da rezultuje u tome da se text podeli u 2 kolone sa razmakom od 4rem-a i borderom medju njima
+61. da se ne vidi (opacity) ali i da bude sklonjeno (visability) da nebi moglo da se selektuje
+    opacity: 0;
+    visibility: hidden;
+	ovo moze da se koristi u kombinaciji sa selektorom :target koji ce da se aktivira ako je taj element target nekog ancora <a href="#nesto"> nesto:target {}
+	i tako da dobijem popup bez ikakvog js koda koji smara.
+62. @media queries. postoji 2 pristupa pisanju media qverija a to je desktop first ili mobile first. kada smo desktop first napisem ceo sajt i onda ubacujem media qverije sa max-width da definisem sta se 
+	desi kada je velicina ekrana npr 600px primer: @media (max-width: 600px) {selektor {width: 30%;}} ili ako korisitm sass samo stavim @media u sass selektor i u njemu kucam parametre
+	kada bih isli mobile frist pristuup koristio bix min-width i samo isao u suprotnom smeru od desktopa.
+	Najbolji pristup kod pisanja media qverija je da kad koristim sass napisem mixine koji predstavljaju svaki brejkpoint i njih includujem u kod gde treba da budu
+	$breakpoint je rec koju unnesem kada includujem mixin
+	@mixin responsive($breakpoint) {
+		@if $breakpoint == phone {
+			@media only screen and (max-width: 37.5em) { @content; } // 600px / 16 px = 37.5em 
+		}
+		@if $breakpoint == tab-port {
+			@media only screen and (max-width: 56.25em) { @content; } // 800px
+		}
+		@if $breakpoint == tab-land {
+			@media only screen and (max-width: 75em) { @content; } // 1200px
+		}
+		@if $breakpoint == big-desk {
+			@media only screen and (min-width: 112.5em) { @content; } // 1800px
+		}
+	} // only screen se koristi kao uslov da se ovaj media qveri prikaze samo kad je na ekranu a ne i na npr stampi... ko zna sta je pisac teo da rekne...
+	i posle se da se koristi tamo gde mi treba, npr u html selektoru: 
+	html {
+		font-size: 62.5%; /* ovo znaci da default od brovsera koji je 16px prebacimo u 10px ali ako je default drugaciji da i delje bude isto ok */
+		@include responsive(tab-land) {font-size: 56.25%; // 1rem = 9px, 9/16 = 56.25%}
+		@include responsive(tab-port) {font-size: 50%; // 1rem = 8px, 8/16 = 50%}
+		@include responsive(big-desk) {font-size: 75%; // 1rem = 12px, 12/16 = 75%}
+	}
+	Kada posle pravim sajt da bude responsive idem i gledam stranicu korak po korak i prepravljam na medija kverijima ono sto mi odgovarajucu
+	ORDER OF MAKING IT RESPONSIVER
+    Base + typography > general layout + grid > page layout > components
+	Kad od desktop varijante pravim mobile jako je bitno da u @media ako hocu da promenim neki parametar moram da ga imenujem isto i iskoristim iste stvari u njemu sa drugacijim vrednostima.
+	npr imam transform: scale(1.2) skewX(12deg); u @media moram navesti i scale i skew iako npr samo hocu da promenim skew
+63. Responsive images znaci da se slike menjaju na osnovu velicine i gustine ekrana na kojem se nalaze.
+	postoji vise fora da se ovo resi.
+	1) u html img tagu prosto da navedem sliku sa 1x i sliku sa 2x i on ce automatik izabrati koju da stavi na osnovu ekrana...
+		stim sto umesto src koristim srcset. Ovo je kad hocu da ga menjam u odnosu na gustinu ekrana
+	  <img srcset="img/logo-green-small.png 1x, img/logo-green-large.png 2x" alt="Full logo" class="footer__logo">
+	2) u <pickture> tagu -- gde mogu da deff vise source tagova i media tag koji funkcionise kao media qveri
+	i ovako mogu postaviti razlicite slike na razlicite velicine ekrana, a sa srcset atributom i razlicite gustine
+	<picture>
+        <source srcset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" media="(max-width: 37.5em)">
+        <img srcset="img/logo-green-1x.png 1x, img/logo-green-2x.png 2x" alt="Full logo" class="footer__logo">
+    </picture>
+	3) fora sa ovim je da mu u srcset kazem kolike su slike sirine u pixelima (dole 300w i 1000w) i onda na razlicitim max-width odredim koliko ce vw da zauzmu...valjda
+	<img srcset="img/nat-1.jpg 300w, img/nat-1-large.jpg 1000w" 
+        sizes="(max-width: 900px) 20vw, (max-width: 600px) 30vw, 300px" 
+        alt="photo 1" 
+        class="composition__photo composition__photo--p1"
+        src="img/nat-1-large.jpg">
+	4) u css-u kada imam background image mogu da koristim media qveri za rezoluciju npr:
+		@media (min-resolution: 192dpi) and (min-width: 37.5em), (min-width: 125em) {
+			// ovo je high resolution screen
+			// i media qveri koji gadja rezoluciju
+			// i ima jos jedan uslov a to je da width ekrana bude veci od 600px
+			// ili ako je ekran veci od 2000px onda ucitaj najvecu sliku
+			background-image: linear-gradient(
+			to right bottom, 
+			rgba($color-primary-light, 0.8),
+			rgba($color-primary-dark, 0.8)),
+			url(../img/hero.jpg);
+		}
+64. Kada zelim da ubacim neke parametre koji nisu podrzani u browseru mogu da koristim @supports media qveri. u sl primeru on qverira da li browser podrzava backdrop(koji radi samo na mac-u) i 
+	radi nesto ako ga podrzava
+	@supports(-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba($color-black, .3);
+    }
+65. -webkit- je za apple safari
+66. kada pravim projekat za frontend dobro je da za css u npm paketima napravim macro za pakovanje i kompresovanje css-a. Ima primer u natours projektu u package.json fajlu pod scripts.
+	"scripts": {
+    "watch:sass": "node-sass sass/main.scss css/style.css -w",
+    "dev-server": "live-server",
+    "start": "npm-run-all --parallel dev-server watch:sass",
+	// ovde sam napravio svoj npm start :D
+    "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+    "concat:css": "concat -o css/style.concat.css css/icon-font.css css/style.comp.css",
+	// ovde treba da se ubaci i autoprefixer za css neki da automatski ubaci -webkitove i ostalo
+    "compress:css": "node-sass css/style.comp.css css/style.css --output-style compressed",
+    "build:css": "npm-run-all compile:sass concat:css compress:css"}
+67. Moguce je da na celom sajtu promenim sta se desava kada je text selektovan!!
+	::selection {
+    background-color: $color-primary;
+    color: $color-white;}
+68. Trillo projekat: 
+	postoji nesto sto se zove custom css property i oni se deklarisu sa --ime-ime: neka vrednost; i ti propertiji se postavljaju u neki najparent selektor 
+	koji bi bio ili :root ili html i koriste se posle u child selektorima npr: color: var(--ime-ime);	
+	Ovo je korisno samo u slucaju da nemas preprocesor koji koristi varijable 
+69. uvek privo ima parent komponentu koja je display: flex; 
+	i onda u child elementu mogu napisati flex: 1 0 20%; gde znaci da je flex-grow(da se rasiri na svo slobodno mesto) 1, flex-shrink (da se ne smanjuje koliko god moze kad treba) 0, 
+	i flex-basis: 20% koji u sustini funkcionise kao width: ali samo sto se uklapa u ovaj flex sa srinkom i growom
+70. Umesto da koristim icon-s bolje je da koristim svg images zato sto je tako sajt accessebilniji. svg mogu da koristim (sa "servera"?) na primer:
+	<svg><use xlink:href="img/sprite.svg#icon-chat"></use></svg> gde je sprite.svg sprite svg fajl autogenerisan sa neta a #icon-chat icona na sprajtu
+71. fill: currentColor; je fora da ce boja biti uzeta od parenta. Kazu da je korisno i jako efikasno
+72. Kada koristim flex i treba da razdvojim stvari levo i desno a justify content mi ne pase, najbolje da korisitm margin: auto; jer ako umesto toga koristim flex-grow: 1; to mu dodje ko padding: auto
+73. kao i :last-child postoji i :last-of-type koji selektuje poslednji element istog tipa i ne deluje na druge tipove elemenata
+74. kad imam npr listu koju hocu da podelim u dve kolone mogu da iskoristim flex-wrap: wrap i onda dam svakom elementu liste flex-basis: 50% ili widht: 50%
+75. kada zelim da imam neku ikonu a ne zelim da je ubacimu html nego u css mogu da koristim background-image: url(), ali tada ne mogu da joj menjam boju.
+	Zaobilazenje ovog problema se radi sa mask-image gde se koristi slika koju imas kao clip da napravi kao rupu u obliku slike kroz koju gledas na pozadinu koja je neke boje koju odredim. primer:
+	//new browser use masks
+        // mask funkcionise tako sto imamo boju pozadine i onda stavimo masku preko nje i vidimo samo kroz tu masku
+        // tako da ovo dole rezultuje u roze strelici na desno iako je strelica crna (slicno kao clip)
+        @supports(-webkit-mask-image: url(../img/chevron-thin-right.svg)) or (-webkit-mask-size: cover) {
+            background-color: var(--color-primary);
+            -webkit-mask-image: url(../img/chevron-thin-right.svg);
+            -webkit-mask-size: cover;
+            mask-image: url(../img/chevron-thin-right.svg);
+            mask-size: cover;
+        }
+76. GRID grid definisem tako sto kontejneru dodelim display: grid;
+	grid-template-rows: repeat(3, 1fr); // znaci da ce da bude 3 reda sa jednako rasporedjenim rastom
+	grid-template-columns: 100px 100px 100px; // znaci da ce da bude 3 kolone sa po 100px sirine
+	grid-row-gap: 30px; znaci da ce gap medju rowowima biti 30px
+	grid-column-gap: 30px; znaci da ce gap medju kolonama biti 30px;
+	grid-gap: 30px; znaci da ce gap svuda biti 30px
+	grid prima iste alignove kao i flex-basis
+	grid-row: 1/2; // znaci da ce celija biti postavljena u row izmedju 1 i 2 gapa
+	grid-column: 2/4; // znaci da ce celija biti rasirena izmedju 2 i 4 gapa u koloni
+	pored toga sto mu odredjujem lokaciju i sirinu indexima od gapova, moguce je odredjivati poziciju celije tako sto imenujem template-area. npr:
+	.container {
+	grid-template-areas: "header header header header"
+						 "box box box side"
+						 "main main main side"
+						 "footer footer footer footer";}
+	.header {grid-area: header;} // postavice ovaj div sa header klasom u svako polje sa header imenom
+	.box {grid-area: box;}
+	.side {grid-area: side;}
+	.main {grid-area: main;}
+	.footer {grid-area: footer;}
+	kada ima vise kontenta nego sto je definisano rowowa ili kolona mogu da koristim grid-auto-flow: column / row dense; da odredim gde ce taj extra content biti prosledjen
+	posle mogu da napisem grid-auto-row: 100px; i to odredjuje da ce ti ekstra rowowi biti velicine 100px; isto i za column
+	align-items: center; // ce da uzme sve iteme iz grida i da ih alignuje po visini
+	justify-items: center; // ce da uzme sve iteme iz grida i da ih alignuje po sirini
+	align-self: end; // isto al za sebe
+	justify-self: end; // isto al za sebe	
+77. u gridu kad mu podesavam velicine mogu da koristim minmax() funkciju gde kazem da ce nesto biti npm minimalno 100px a max 150px sirine. minmax(100px, 150px);
+78. grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); // ovo je ultimat responsiv grid cija ce minimalna sirina biti 200px
+79. object-fit koristim da uglavim sliku u neki blok a da zadrzim aspect ratio. stim sto mora da se deff width i height npr:
+	img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+		
+
+
+
+
+
+
+
+
+
+
+stigo si do 118 i treba da napises podsetnik ovde posto je prosao mnogo o grid layoutima ovde

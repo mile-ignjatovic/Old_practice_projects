@@ -1,0 +1,19 @@
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    // z index negativan da bi bilo iza svega
+    z-index: -1;
+    opacity: .15;
+    // overflow hidden da bi sakrio delove videa koji izlaze iz diva jer odrzavamo aspect ratio
+    overflow: hidden;
+
+    &__content {
+        // deff velicini videa da bude 100% diva u kome se nalazi i object-fit: cover; da odrzi aspekt i popuni co div
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}

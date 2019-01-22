@@ -1,0 +1,99 @@
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; ovde deklarisem font size za ceo dokument ako necu da koristim rem i em*/
+    /* line-heigth odredjuje visinu line heighta i ovde je odredjena da bude 1.7 puta veca od normalnog */
+    line-height: 1.7;
+    color: $color-gray-dark;
+    /* padding se ne nasledjuje */
+    // padding: 3rem; // prebaceno u _base.scss
+}
+
+.heading-primary {
+    color: $color-white;
+    text-transform: uppercase;
+
+    /* ovo je fix za animacije ako se mrdaju iz nekog razloga */
+    backface-visibility: hidden;
+    margin-bottom: 6rem;
+
+    &--main {
+        display: block;
+        font-size: 6rem;
+        font-weight: 400;
+        letter-spacing: 3.5rem;
+    
+        /* ovako se poziva animacija koja je dole definisana i odredjuje se njeno trajanje */
+        animation-name: moveInLeft;
+        animation-duration: 2s;
+        animation-timing-function: ease-out; /* da se definise tajming kod animacije. ovo znaci da ce da se uspori pred kraj */
+        
+        /* 
+        animation-iteration-count: 3; // desice se 3 puta
+        animation-delay: 3s; 
+        */
+
+        @include responsive(phone) {
+            letter-spacing: 1rem;
+            font-size: 5rem;
+        }
+    }
+    
+    &--sub {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.75rem;
+    
+        /* skraceno pozivanje animacije */
+        animation: moveInRight 2s ease-out;
+
+        @include responsive(phone) {
+            letter-spacing: .5rem;
+        }
+    }
+}
+
+.heading-secondary {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+    // kao width: fit-content
+    display: inline-block;
+    // nova sposobnost css-a da isece background po necemu. u ovom slucaju to je text
+    -webkit-background-clip: text;
+    // kada promenim boju teksta u providno dobijem da mi je tekst boje backgrounda
+    color: transparent;
+    letter-spacing: .2rem;
+    transition: all .2s;
+
+    @include responsive(tab-port) {
+        font-size: 3rem;
+    }
+
+    @include responsive(phone) {
+        font-size: 2.5rem;
+    }
+
+    &:hover {
+        // ovako mogu da se pisu vise transformova u jednoj liniji
+        transform: skewY(-6.5deg) skewX(-15deg) scale(1.1);
+        // senka ispod teksta
+        text-shadow: .5rem 1rem 2rem rgba($color-black, .2);
+    }
+}
+
+.heading-tertiary {
+    font-size: $default-font-size;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph {
+    font-size: $default-font-size;
+    
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}

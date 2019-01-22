@@ -1,0 +1,24 @@
+<div class="popup" id="contact-popup">
+    <div class="popup__content">
+        <a href="#footer" class="popup__close">&times;</a>
+        <div class="book__form">
+            <form action="#" class="form">
+                <div class="u-margin-bottom-medium">
+                    <h2 class="heading-secondary">
+                        Contact us
+                    </h2>
+                </div>
+                <div class="form__group">
+                    <input type="email" class="form__input" placeholder="Email address" id="email" required>
+                    <label for="email" class="form__label">Email address</label>
+                </div>
+                <div class="form__group">
+                    <textarea class="form__textarea" #message name="message" id="message" cols="150" rows="10"></textarea>
+                </div>
+                <div class="form__group">
+                    <button onclick="location.href='#section-footer'" (click)="sendMessage(message.value)" class="btn btn--green">Send message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

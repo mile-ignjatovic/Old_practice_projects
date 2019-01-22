@@ -1,0 +1,47 @@
+
+/* sa ovim sve svodim na 0. nema padinga nema bordera nema margine */
+/* ovo se zove basic reset */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    /* ovo inace nije nasledjeno ali kad se ovako postavi onda jeste */
+    box-sizing: inherit;
+}
+
+/* ovako se odredjuje root font size (rem) i dobra praksa je da se odredi u procentima
+    jer brovser vec ima default font-size a ako je neko slep on je mozda postavio veci 
+    default font size */
+html {
+    font-size: 62.5%; /* ovo znaci da default od brovsera koji je 16px prebacimo u 10px ali ako je default drugaciji da i delje bude isto ok */
+
+    // medija kveriji za responsive design
+    @include responsive(tab-land) {
+        font-size: 56.25%; // 1rem = 9px, 9/16 = 56.25%
+    }
+
+    @include responsive(tab-port) {
+        font-size: 50%; // 1rem = 8px, 8/16 = 50%
+    }
+
+    @include responsive(big-desk) {
+        font-size: 75%; // 1rem = 12px, 12/16 = 75%
+    }
+}
+
+body {
+    /* ovo je jako bitna vrednost jer ovo govori css-u da width i hight racuna bez paddinga 
+        i border velicine i onda ako dodam padding ili border nece ceo box da se pojebe */
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include responsive(tab-port) {
+        padding: 0;
+    }
+}
+
+::selection {
+    background-color: $color-primary;
+    color: $color-white;
+}
