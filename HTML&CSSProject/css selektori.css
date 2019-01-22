@@ -1,0 +1,21 @@
+#tuna {color: blue;} // selektor po id-u
+.tuna {color: red;} // selektor po klasi
+p.tuna {color: grey;} // selektuj samo paragrafe sa klasom tuna
+p[name] {color: pink;} // selektuj sve paragrafe sa deklarisanim [name] atributom
+p[name="tuna"] {color: orange;} // selektuj sve paragrafe sa deklarisanim [name] atributom cija je vrednost tuna
+p[name^="tuna"] {color: green;} // selektuj sve paragrafe sa deklarisanim [name] atributom cija je vrednost pocinje sa reci tuna (tunavina, tunakrasda sta god) regex u css
+p[name$="tuna"] {color: black;} // selektuj sve paragrafe sa deklarisanim [name] atributom cija se vrednost zavrsava sa reci tuna (radituna, kojetuna sta god) regex u css
+p[name*="tuna"] {color: white;} // selektuj sve paragrafe sa deklarisanim [name] atributom cija se vrednost zadrzi rec tuna (radituna, kojetuna sta god) regex u css
+
+p:nth-child(3){color: red;} // svaki paragraf koji 3. dete bilo koga
+p:nth-child(odd){color: red;} // svaki paragraf koji neparno dete bilo koga
+p:nth-child(even){color: red;} // svaki paragraf koji parno dete bilo koga | moguce je i ubaciti neke formule u zagrade
+*{color: blue;} // selektuj sve na sajtu 
+:not(.tuna) {color: red;} // selektuj sve sto nije u klasi "tuna"
+
+div > p {color: blue;} // selektuj svaki PARAGRAF koji ima za direktnog roditelja DIV
+p.tuna + p {color: red;} // selektuj PARAGRAF koji ide odmah posle nekog PARAGRAFA sa klasom "tuna", al da imaju istog roditelja 
+p.tuna ~ p {color: red;} // selektuj SVE PARAGRAFE koji idu posle nekog PARAGRAFA sa klasom "tuna", al da imaju istog roditelja 
+
+
+

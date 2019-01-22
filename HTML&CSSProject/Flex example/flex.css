@@ -1,0 +1,31 @@
+.container{
+	display: flex;
+	flex-direction: column;
+}
+section{
+	width: 50em;
+	height: 15em;
+	border: 1px solid black;
+	margin: 1em;
+}
+p{
+	margin: 0px;
+	padding: 0px;
+	width: 30%;
+}
+div > p:nth-child(odd){
+	background: #ffb300;
+}
+div > p:nth-child(even){
+	background: #BDB76B;
+}
+.wrap{
+	display: flex;
+	flex-wrap: /* nowrap */ wrap /* wrap-reverse */;
+}
+.justify-even{
+	justify-content: space-evenly;
+}
+.justify-center{
+	justify-content: center;
+}

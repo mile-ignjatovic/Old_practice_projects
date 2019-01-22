@@ -1,0 +1,96 @@
+body{
+	margin: 0px;
+	padding: 0px;
+}
+nav{
+	margin: 0px;
+	padding: 0px;
+	background-color: #F6F6F6;
+	border-bottom: 1px solid grey;
+}
+a{
+	color: black;
+    text-decoration: none;
+}
+.product-filter{
+	display: flex;
+}
+.product-filter h1{
+	padding-left: 1rem;
+	flex-grow: 1; /* ovo ce da natera dropdownove da se pomere udesno posto margin right auto se popunjava na sav slobodan prostor */
+}
+.sort{
+	display: flex;
+	justify-content: center; /* da se centrira vertikalno i horizontalno */
+	align-items: center;	
+}
+.collection-sort{
+	display: flex;
+	flex-direction: column;	/* da labela bude iznad selekta */
+	padding-right: 1rem;
+}
+.sec-background{
+	display: flex;
+	background-color:#F6F6F6;
+}
+.products{
+	display: flex;
+	flex-wrap: wrap;
+	margin: 1rem;
+	background-color: white;
+	border: 1px solid #d3d1d1;
+}
+.product-card{
+	padding: 1%;
+	flex-grow: 1;
+	flex-basis: 16%; /* da zauszme po 5 u redu */
+	display: flex;
+	flex-direction: column; /* da tekst i slika budu kolona a ne red */
+	border: 1px solid #d3d1d1;
+}
+.product-image img{ /* da slika firuje u div u kome je */
+  max-width: 100%;
+}
+.product-info {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;	/* da labela bude iznad selekta */
+	justify-content: center; /* da se centrira vertikalno i horizontalno */
+	align-items: center;	
+}
+.product-info h5{
+	margin: 0px;
+}
+.product-info h6{
+	margin-top: 0.2rem;
+	opacity: 0.7;
+}
+@media (max-width: 920px) { /* ako velicina ekrana padne na 92px onda ce biti po 4 itema u wrapu */
+  .product-card {
+    flex: 1 21%;
+	/* isto kao flex: 1 21%; je =>
+	flex-grow: 1;
+	flex-basis: 21%;*/
+  }
+}
+@media (max-width: 375px) {
+	.sort{
+		display: flex;
+		align-self: flex-start;
+		padding-left: 1rem;
+		flex-direction: column;
+	}
+	.collection-sort{
+		align-self: flex-start;
+	}
+	.product-filter{
+		display: flex;
+		flex-direction: column;
+	}
+	.product-card {
+		flex: 1 80%;
+		/* isto kao flex: 1 21%; je =>
+		flex-grow: 1;
+		flex-basis: 21%;*/
+	}
+}

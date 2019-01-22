@@ -1,0 +1,68 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+h1{
+	font: bold 20px Tahoma;
+}
+h2{
+	font: bolad 14px Tahoma;
+}
+header, section, footer, aside, nav, article, hgroup{
+	display: block;
+}
+body{
+	width: 100%;
+	display: -webkit-box; /* this is a box that can change in size i ima childrene koji su box i zato mora da se deklarise */
+	-webkit-box-pack: center; /* center the children */
+}
+#big-wrapper{
+	max-width: 1000px;
+	margin: 20px 0px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-flex: 1; /* omogucava fleksibilnost */
+	border: 1px solid green;
+	
+}
+#top-header{
+	background: yellow;
+	border: 3px solid black;
+	padding: 20px;
+}
+#top-menu{
+	border: 3px solid red;
+	background: blue;
+	color: white;
+}
+#top-menu li{
+	display: inline-block;
+	list-style: none;
+	padding: 5px;
+	font: bolad 14px Tahoma;
+}
+#new-div{
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+}
+#main-section{
+	border: 1px solid red;
+	-webkit-box-flex: 1; /* ako je 1 ovo ce biti fleksibilno */
+	margin: 20px;
+	padding: 20px;
+}
+#side-news{
+	border: 1px solid pink;
+	width: 200px; /* ovo nece biti flex i to je kao dobra praksa jer tu mogu da trpam addove i ostalo... */ 
+	margin: 20px 0px;
+	padding: 30px;
+	background: #66cccc;
+}
+#footer{
+	text-align: center;
+	padding: 20px;
+	border-top: 2px solid green;
+}
+article footer{
+	text-align: right;
+}

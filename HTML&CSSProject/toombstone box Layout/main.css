@@ -1,0 +1,65 @@
+*{ /*reset all tags to 0 */ 
+	margin: 0px;
+	padding: 0px;
+} 
+h1{
+	font: bold 20px Tahoma;
+}
+h2{
+	font: bold 14px Tahoma;	
+}
+header, section, footer, aside, nav, article, hgroup{
+	display: block;
+}
+body{
+	text-align: center;
+} /*  ovo do wrappera je za stare browsere da prikazuju normalno stvari mada uvek treba da koristim */
+#big-wrapper{ /* ovaj wrapper kao centrira sajt */
+	border: 1px solid black;
+	width: 1000px;
+	margin: 20px auto;
+	text-align: left;
+}
+#top-header{
+	background: yellow;
+	border: 1px solid blue;
+	padding: 20px
+}
+#top-menu{
+	background: blue;
+	color: white;
+}
+#top-menu li{
+	display: inline-block;
+	list-style: none;
+	padding: 10px;
+	font: bold 14px Tahoma;
+}
+#main-section{
+	float: left;
+	width: 660px;
+	margin: 30px; /* 720px, 280px left */ 
+}
+#side-news{
+	float: left;
+	width: 220px;
+	margin: 20px 0px;
+	padding: 30px;
+	background: #fafafafa;
+}
+#footer{
+	clear: both;
+	text-align: center;
+	padding: 20px;
+	border-top: 2px solid green;
+}
+article{
+	background: #fffbcc;
+	border: 1px solid red;
+	padding: 20px;
+	margin-bottom: 15px;
+}
+article footer{
+	text-align: right;
+}
+ 

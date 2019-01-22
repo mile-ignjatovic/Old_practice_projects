@@ -1,0 +1,6 @@
+/*
+ako nije prosledjeno nesto u ovu metodu onda ce biti $black
+*/
+@mixin default-text-color($tc: $black) { 
+	color: $tc;
+}

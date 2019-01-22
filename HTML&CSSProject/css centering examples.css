@@ -1,0 +1,80 @@
+.center-children {
+  text-align: center;
+} /* this centers inline elements horizontaly in a block lvl parent element */
+----------
+ .center-me {
+  margin: 0 auto;
+}	/* this centeres a block lvl element on the page */
+----------
+#l:before, #r:before { 
+  content: ""; 
+  width: 125px; 
+  height: 250px; 
+}
+#l:before { 
+  float: right; 
+}
+#r:before { 
+  float: left; 
+} /* two columns of text witch have #l and #r will be indented or the width and height of 125*250px in the center. later i can position an image with absolute or something */
+----------
+.flex-center {
+  display: flex;
+  justify-content: center;
+} /* the content will fill the page and it will be centered */
+----------
+.center-table {
+  display: table;
+  height: 250px;
+  background: white;
+  width: 240px;
+  margin: 20px;
+}
+.center-table p {
+  display: table-cell;
+  margin: 0;
+  background: black;
+  color: white;
+  padding: 20px;
+  border: 10px solid white;
+  vertical-align: middle;
+} /* align miltiple lines of text vertically in a div(alternative is to put it in a table i guess) */
+----------
+.flex-center-vertically {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 400px;
+}/* vertical align multiple lines of text using flex */
+----------
+.parent {
+	position: relative;
+}
+.child {
+	position: absolute;
+	top: 50%; /* put it down by half */
+	transform: translateY(-50%); /* get it back up by half of that */
+} /* this positions a div center vertically no matter the hight of parent or child */
+----------
+.parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} /* flex align vertically */
+----------
+.parent {
+  position: relative;
+}
+.child {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+} /* center vertically and horizontally. move it by half from top and left and then back half of that with translate */
+----------
+.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/* center vertically and horizontally using flex */
+----------
