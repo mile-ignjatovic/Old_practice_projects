@@ -1,0 +1,10 @@
+.vscode
+/node_modules
+/dist
+.idea/
+.npmrc
+.scannerwork/
+.sonarlint
+.settings
+.project
+.classpath

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<title>VueJs 0.2 playground</title>
+		<script src="vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div
+				class="box"
+				@click="attachRed = !attachRed"
+				:class="divClasses"
+			></div>
+			<div class="box" :class="color"></div>
+			<div class="box"></div>
+			<hr />
+			<input type="text" v-model="color" />
+		</div>
+		<script src="main.js"></script>
+	</body>
+</html>

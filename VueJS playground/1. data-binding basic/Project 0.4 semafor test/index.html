@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>VueJs 0.4 Semafor test</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="box" :class="{'red' : red}"></div>
+			<div class="box" :class="{'orange' : orange}"></div>
+			<div class="box" :class="{'green' : green}"></div>
+		</div>
+		<script>
+			new Vue({
+				el: "#app",
+				data: {
+					test: "test",
+					red: true,
+					orange: false,
+					green: false
+				},
+				methods: {
+					control: function() {
+						console.log("function called");
+						const v = this;
+						let orangeOnce = false;
+						setInterval(function() {
+							console.log("interval start");
+							if (v.red) {
+								v.orange = true;
+								v.red = false;
+								v.green = false;
+							} else if (v.orange) {
+								if (orangeOnce) {
+									v.green = true;
+									v.orange = false;
+									v.red = false;
+									orangeOnce = false;
+								}
+								orangeOnce = true;
+							} else if (v.green) {
+								v.red = true;
+								v.orange = false;
+								v.green = false;
+							}
+						}, 500);
+					}
+				},
+				mounted() {
+					this.control();
+				}
+			});
+		</script>
+		<style>
+			.box {
+				height: 50px;
+				width: 50px;
+				background-color: gray;
+				border-radius: 100px;
+				margin: 10px;
+				display: flex;
+				flex-direction: column;
+			}
+			.red {
+				background-color: red;
+			}
+			.green {
+				background-color: green;
+			}
+			.orange {
+				background-color: orange;
+			}
+		</style>
+	</body>
+</html>

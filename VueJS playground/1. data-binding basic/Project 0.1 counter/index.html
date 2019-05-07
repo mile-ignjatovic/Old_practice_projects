@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>VueJs 0.1 playground</title>
+		<script src="vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button v-on:click="increase(2, $event)">Click me</button>
+			<button v-on:click="counter+=10">Click me XXX</button>
+			<p>{{ counter }}</p>
+			<p v-on:mousemove="updateCoordinates">
+				Coordinates: {{ x }} \ {{ y }} -
+				<span v-on:mousemove.stop="">DEAD SOPT</span>
+			</p>
+			<input type="text" v-on:keyup.enter="alertMe" />
+		</div>
+		<script src="main.js"></script>
+	</body>
+</html>
